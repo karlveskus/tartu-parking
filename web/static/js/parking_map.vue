@@ -14,7 +14,11 @@ export default {
     const element = document.getElementById(this.mapName)
     const options = {
       zoom: 14,
-      center: new google.maps.LatLng(58.378025,26.728493)
+      mapTypeControl: false,
+      center: new google.maps.LatLng(58.378025,26.728493),
+      scaleControl: false,
+      streetViewControl: false,
+      fullscreenControl: false
     }
     const map = new google.maps.Map(element, options);
     
