@@ -27,13 +27,14 @@
       <main role="main">
         <%= render @view_module, @view_template, assigns %>
 
-        <div id="takso-app">
-          <parking_map></parking_map>
+        <div id="parking-app">
+          <parking-map></parking-map>
         </div>
 
       </main>
 
     </div> <!-- /container -->
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=places,geometry,drawing&key=AIzaSyBQek7NQLBPy99BvR8O9Z1SPzCs9OasrSo&v=3"></script>        
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
   </body>
 </html>
