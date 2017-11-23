@@ -5,10 +5,10 @@ Feature: Parking booking
 
 Scenario: Choosing place via mobile phone (with available places)
    Given the following parking places are in the area
-         | location    | available slots |
-         | Vanemuise 4 | 5		     |
-         | Turu 2      | 2		     |
-         | Liivi 2     | 1		     |
+         | address    | available_slots | total_slots |
+         | Vanemuise 4 | 5		     | 10          |
+         | Turu 2      | 2		     | 20          |
+         | Liivi 2     | 1		     | 10          |
 
    And I want to park vehicle to "Vanemuise 4"
    And I open FindMeParking mobile application
@@ -18,10 +18,10 @@ Scenario: Choosing place via mobile phone (with available places)
 
  Scenario: Choosing place via mobile phone (with no parking places)
    Given the following parking places are in the area
-         | location    | available slots |
-         | Vanemuise 4 | 0               |
-         | Turu 2      | 0               |
-	   | Liivi 2     | 0               |
+         | address    | available_slots | total_slots |
+         | Vanemuise 4 | 0               | 10          |
+         | Turu 2      | 0               | 20          |
+	   | Liivi 2     | 0               | 10          |
 
    And I want to park vehicle to "Vanemuise 4"
    And I open FindMeParking mobile application
