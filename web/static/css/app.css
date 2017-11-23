@@ -21,7 +21,8 @@ time, mark, audio, video {
 	border: 0;
 	font-size: 100%;
 	font: inherit;
-    vertical-align: baseline;
+	vertical-align: baseline;
+	box-sizing: border-box;
 }
 /* HTML5 display-role reset for older browsers */
 article, aside, details, figcaption, figure, 
@@ -48,8 +49,10 @@ table {
 }
 html,
 body {
-    height: 100%;
+	height: 100%;
+	font: 1rem "PT Sans", sans-serif;
 }
+
 main, #parking-app {
-    height: 100%;
+	height: 100%;
 }

@@ -1,3 +1,4 @@
 <div id="parking-app">
+    <address-field></address-field>
     <parking-map></parking-map>
 </div>
