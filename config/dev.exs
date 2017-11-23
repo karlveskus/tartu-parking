@@ -54,3 +54,7 @@ config :tartu_parking, TartuParking.Repo,
   database: "tartu_parking_dev",
   hostname: "localhost",
   pool_size: 10
+
+  config :tartu_parking, :http_client, HTTPoison
+  
+  config :tartu_parking, decision_timeout: 30000   # 30 seconds
