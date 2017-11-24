@@ -18,13 +18,19 @@
     }
 
     input {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+
         background: #fff;
         border: 1px solid #fff;
-        box-shadow: 0 4px 10px -2px rgba(0, 0, 0, .2);
+        border-radius: 0;
+        box-shadow: 0 2px 6px 0px rgba(0, 0, 0, .2);
         box-sizing: border-box;
         color: #929292;
         float: left;
         font: inherit;
+        margin: 0;
         outline: 0;
         padding: 10px 10px;
         width: 290px;
