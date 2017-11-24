@@ -10,7 +10,7 @@ defmodule WhiteBreadContext do
     Hound.start_session
     %{}
   end
-  scenario_finalize fn _status, _state -> 
+  scenario_finalize fn _status, _state ->
     # Hound.end_session
   end
 
