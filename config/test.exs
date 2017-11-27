@@ -19,4 +19,4 @@ config :tartu_parking, TartuParking.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :hound, driver: "chrome_driver"
-config :takso, sql_sandbox: true
+config :tartu_parking, sql_sandbox: true

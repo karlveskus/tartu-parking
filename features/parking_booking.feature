@@ -1,11 +1,11 @@
-Feature: Parking booking
+Feature: Parking searching
  As a customer
  Such that for parking vehicle in the destination
  I want to arrange it beforehand
 
 Scenario: Choosing place via mobile phone (with available places)
    Given the following parking places are in the area
-         | address    | available_slots | total_slots |
+         | address     | available_slots | total_slots |
          | Vanemuise 4 | 5		     | 10          |
          | Turu 2      | 2		     | 20          |
          | Liivi 2     | 1		     | 10          |
@@ -18,7 +18,7 @@ Scenario: Choosing place via mobile phone (with available places)
 
  Scenario: Choosing place via mobile phone (with no parking places)
    Given the following parking places are in the area
-         | address    | available_slots | total_slots |
+         | address     | available_slots | total_slots |
          | Vanemuise 4 | 0               | 10          |
          | Turu 2      | 0               | 20          |
 	   | Liivi 2     | 0               | 10          |
@@ -27,4 +27,4 @@ Scenario: Choosing place via mobile phone (with available places)
    And I open FindMeParking mobile application
    And I enter the destination address
    When I submit the request
-   Then Map should be displayed with “there are  no available parking places”
+   Then I should receive a rejection message

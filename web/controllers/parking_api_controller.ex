@@ -1,6 +1,5 @@
 defmodule TartuParking.ParkingAPIController do
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo,Parking}
   
   def index(conn, params) do
 
