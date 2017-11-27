@@ -18,9 +18,13 @@ defmodule TartuParking.Router do
 
     get "/", PageController, :index
     resources "/users", UserController
+    
+
+
   end
   # Other scopes may use custom stacks.
-  # scope "/api", TartuParking do
-  #   pipe_through :api
-  # end
+  scope "/api", TartuParking do
+    pipe_through :api
+    resources "/parking", ParkingAPIController
+  end
 end

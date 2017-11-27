@@ -2,17 +2,16 @@ defmodule TartuParking.ParkingAPIController do
     use TartuParking.Web, :controller
     alias TartuParking.{Repo,Parking}
     
-    def create(conn, params) do
-      #user = Guardian.Plug.current_resource(conn)
-
-      Takso.TaxiAllocator.start_link(params)
-      Takso.TaxiAllocator.find_parking(String.to_atom("#{origin}"))
-  
+    def index(conn, _params) do
+      #Takso.TaxiAllocator.find_parking(String.to_atom("#{origin}"))
+      parking = TartuParking.Geolocator.find_closest_parking("Liivi 2")
+      parking = parking |> List.first
+      IO.inspect parking
       conn
-      |> put_status(201)
-      |> json(%{msg: "We are processing your request"})
+      |> put_status(200)
+      |> json(%{msg: "Your decision has been taken into account"})
     end
-  
+
     # def update(conn, %{"id" => booking_id, "status" => decision}) do
     #   user = Guardian.Plug.current_resource(conn)    
     #   case decision do
