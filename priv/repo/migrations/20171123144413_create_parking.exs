@@ -4,8 +4,8 @@ defmodule TartuParking.Repo.Migrations.CreateParking do
   def change do
    create table(:parkings) do
       add :address, :string
-      add :available_slots, :string
-      add :total_slots, :string
+      add :available_slots, :integer
+      add :total_slots, :integer
 
       timestamps()
     end

@@ -17,14 +17,14 @@ defmodule TartuParking.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-    resources "/users", UserController
     
-
-
   end
   # Other scopes may use custom stacks.
   scope "/api", TartuParking do
     pipe_through :api
-    resources "/parking", ParkingAPIController
+
+    resources "/users", UserController
+
+    get "/parkings", ParkingAPIController, :index
   end
 end

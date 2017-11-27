@@ -3,8 +3,8 @@ defmodule TartuParking.Parking do
   
     schema "parkings" do
       field :address, :string
-      field :available_slots, :string
-      field :total_slots, :string
+      field :available_slots, :integer
+      field :total_slots, :integer
   
       timestamps()
     end
