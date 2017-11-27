@@ -50,7 +50,11 @@ config :phoenix, :stacktrace_depth, 20
 config :tartu_parking, TartuParking.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "postgres",
+  password: "fubb1732",
   database: "tartu_parking_dev",
   hostname: "localhost",
   pool_size: 10
+
+  config :tartu_parking, :http_client, HTTPoison
+  
+  config :tartu_parking, decision_timeout: 30000   # 30 seconds

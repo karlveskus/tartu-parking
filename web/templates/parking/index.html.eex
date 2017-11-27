@@ -1,0 +1,5 @@
+<h2>Closest Parking</h2>
+
+<%= for parking <- @parking do %>
+<%= parking.address %>
+<% end %>

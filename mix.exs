@@ -43,7 +43,9 @@ defmodule TartuParking.Mixfile do
       {:gettext, "~> 0.11"},
       {:cowboy, "~> 1.0"},
       {:white_bread, "~> 4.1", only: [:test]},
-      {:hound, "~> 1.0"}
+      {:hound, "~> 1.0"},
+      {:httpoison, "~> 0.13"},
+      {:poison, "~> 3.1"}
     ]
   end
 
