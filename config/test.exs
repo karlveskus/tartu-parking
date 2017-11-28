@@ -20,3 +20,5 @@ config :tartu_parking, TartuParking.Repo,
 
 config :hound, driver: "chrome_driver"
 config :tartu_parking, sql_sandbox: true
+
+config :tartu_parking, :http_client, HTTPoison

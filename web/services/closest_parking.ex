@@ -12,27 +12,32 @@ defmodule TartuParking.Geolocator do
 		query = from p in Parking, where: p.available_slots > 0, select: p
 		available_parkings = Repo.all(query)
 
-		# Join parking places for Distancematrix API
-		joined_parking_addresses = 
+		if length(available_parkings) == 0 do
+			[]
+		else
+			# Join parking places for Distancematrix API
+			joined_parking_addresses = 
 			available_parkings
 			|> Enum.map(fn(parking) -> parking.address <> " Tartu Estonia" end)
 			|> Enum.join("|")
 
-		# Google Distancematrix API request to get distances for all available parking places
-		origin = address <> " Tartu Estonia" 
-		url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origin}&destinations=#{joined_parking_addresses}")
+			# Google Distancematrix API request to get distances for all available parking places
+			origin = address <> " Tartu Estonia" 
+			
+			url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origin}&destinations=#{joined_parking_addresses}")
 
-		# Parse distances
-		%{"body": body} = @http_client.get!(url)
-		%{"rows" => rows} = Poison.Parser.parse!(body)
-		%{"elements" => distances} = List.first(rows)
+			# Parse distances
+			%{"body": body} = @http_client.get!(url)
+			%{"rows" => rows} = Poison.Parser.parse!(body)
+			%{"elements" => distances} = List.first(rows)
 
-		# Filter out only parkings in given range
-		parkings_in_range = 
-			Enum.zip(available_parkings, distances)
-			|> Enum.filter(fn(parking) -> parking_is_in_range(parking, max_distance) end)
+			# Filter out only parkings in given range
+			parkings_in_range = 
+				Enum.zip(available_parkings, distances)
+				|> Enum.filter(fn(parking) -> parking_is_in_range(parking, max_distance) end)
 
-		parkings_in_range
+			parkings_in_range
+		end
 	end
 
 	
