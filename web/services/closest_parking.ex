@@ -1,40 +1,54 @@
 defmodule TartuParking.Geolocator do
-    @http_client Application.get_env(:tartu_parking, :http_client)
-    import Ecto.Query, only: [from: 2]
-    alias TartuParking.{Repo,Parking}
-    # ==============================
-    # Given a list of taxi locations (origins), the followin function computes 
-    # the duration of the trips to reach the pick up address (destination) 
-    # specified by the customer in a booking request
+	@http_client Application.get_env(:tartu_parking, :http_client)
+	import Ecto.Query, only: [from: 2]
+	alias TartuParking.{Repo,Parking}
+	
 
-    def distances_for(origins, destination) do
-        origins = origins
-            |> Enum.map(fn loc -> loc<>" Tartu Estonia" end) # Complete taxi location
-            |> Enum.join("|") # Concatenate all the taxi locations with "|" as separator
-        destination = destination <> " Tartu Estonia" # Complete pickup address
-        url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origins}&destinations=#{destination}")
-        %{body: body} = @http_client.get!(url)
+	def find_closest_parkings(address) do
 
-        # Parse the body of the HTTP response (JSON)
-        %{"rows" => rows} = Poison.Parser.parse!(body) # We are interested only in the rows
-        Enum.map(rows, fn row ->
-            distance = Map.get(row, "elements") |> List.first |> Map.get("distance")
-            {distance["text"], distance["value"]}  
-        end)
-    end
+		# Maximum distance between inserted destination and parking places in meters
+		max_distance = 500
 
-    def find_closest_parking(origin) do
-     
-        query = from p in Parking, where: p.available_slots != "0", select: p
-        all_parkings = Repo.all(query)
+		query = from p in Parking, where: p.available_slots > 0, select: p
+		available_parkings = Repo.all(query)
 
-        if length(all_parkings) > 0 do
-            addresses = Enum.map(all_parkings, fn parking -> parking.address end)
-            IO.puts "fsdaflsadf"
+		if length(available_parkings) == 0 do
+			[]
+		else
+			# Join parking places for Distancematrix API
+			joined_parking_addresses = 
+			available_parkings
+			|> Enum.map(fn(parking) -> parking.address <> " Tartu Estonia" end)
+			|> Enum.join("|")
 
-            parking = TartuParking.Geolocator.distances_for(addresses, origin)
-        else
-            parking ="no parking"
-        end
-    end
+			# Google Distancematrix API request to get distances for all available parking places
+			origin = address <> " Tartu Estonia" 
+			
+			url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origin}&destinations=#{joined_parking_addresses}")
+
+			# Parse distances
+			%{"body": body} = @http_client.get!(url)
+			%{"rows" => rows} = Poison.Parser.parse!(body)
+			%{"elements" => distances} = List.first(rows)
+
+			# Filter out only parkings in given range
+			parkings_in_range = 
+				Enum.zip(available_parkings, distances)
+				|> Enum.filter(fn(parking) -> parking_is_in_range(parking, max_distance) end)
+
+			parkings_in_range
+		end
+	end
+
+	
+	def parking_is_in_range({_parking, distance}, range) do
+		# Checks if parking place distance is less than given range
+
+		distance 
+		|> Map.fetch("distance") 
+		|> elem(1) 
+		|> Map.fetch("value") 
+		|> elem(1) < range
+	end
+
 end

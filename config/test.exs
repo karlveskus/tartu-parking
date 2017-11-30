@@ -13,10 +13,12 @@ config :logger, level: :warn
 config :tartu_parking, TartuParking.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "fubb1732",
+  password: "postgres",
   database: "tartu_parking_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :hound, driver: "chrome_driver"
-config :takso, sql_sandbox: true
+config :tartu_parking, sql_sandbox: true
+
+config :tartu_parking, :http_client, HTTPoison

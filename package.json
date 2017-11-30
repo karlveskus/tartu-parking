@@ -6,9 +6,11 @@
     "watch": "brunch watch --stdin"
   },
   "dependencies": {
+    "axios": "^0.17.1",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
-    "vue": "^2.5.8"
+    "vue": "^2.5.8",
+    "vuex": "^3.0.1"
   },
   "devDependencies": {
     "babel-brunch": "6.1.1",

@@ -1,12 +1,32 @@
 <template>
     <div>
-        <input type="text" placeholder="Enter parking address here"/>
-        <button>Search</button>
+        <input v-model="address" v-on:keyup.enter="get_parkings" type="text" placeholder="Enter parking address here"/>
+        <button v-on:click="get_parkings">Search</button>
     </div>
 </template>
 
 <script>
-    export default {}
+    import axios from "axios";
+
+    export default {
+        data: function() {
+            return {
+                address: ""
+            }
+        },
+        methods: {
+            get_parkings: function() {
+                this.$store.dispatch('setAddress', this.address)
+
+                let url = "/api/parkings?address=" + this.address
+
+                axios.get(url)
+                .then((res) => console.log(res.data))
+
+                
+            }
+        }
+    }
 </script>
 
 <style scoped>
