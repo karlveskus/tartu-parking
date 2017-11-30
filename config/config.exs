@@ -7,8 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :tartu_parking,
-  ecto_repos: [TartuParking.Repo]
-
+  ecto_repos: [TartuParking.Repo],
+extensions: [{Geo.PostGIS.Extension, library: Geo}]
 # Configures the endpoint
 config :tartu_parking, TartuParking.Endpoint,
   url: [host: "localhost"],
@@ -25,3 +25,4 @@ config :logger, :console,
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
+

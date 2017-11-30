@@ -16,7 +16,8 @@ config :tartu_parking, TartuParking.Repo,
   password: "postgres",
   database: "tartu_parking_test",
   hostname: "localhost",
-  pool: Ecto.Adapters.SQL.Sandbox
+  pool: Ecto.Adapters.SQL.Sandbox,
+  extensions: [{Geo.PostGIS.Extension, library: Geo}]
 
 config :hound, driver: "chrome_driver"
 config :tartu_parking, sql_sandbox: true

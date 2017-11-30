@@ -1,5 +1,10 @@
 defmodule TartuParking.ParkingAPIController do
   use TartuParking.Web, :controller
+
+  Postgrex.Types.define(TartuParking.PostgresTypes,
+  [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
+  json: Poison)
+
   
   def index(conn, params) do
 
@@ -30,7 +35,7 @@ defmodule TartuParking.ParkingAPIController do
     conn
     |> put_status(200)
     |> json(parkings)
-    
+        
   end
 
 end

@@ -11,8 +11,14 @@
 # and so on) as they will halt execution if something goes wrong.
 alias TartuParking.{Repo, Parking}
 
-[%{address: "Vanemuise 4", available_slots: 0, total_slots: 10},
- %{address: "Turu 2", available_slots: 15, total_slots: 20},
- %{address: "Liivi 4", available_slots: 6, total_slots: 10}]
-|> Enum.map(fn parking -> Parking.changeset(%Parking{}, parking) end)
-|> Enum.each(fn changeset -> Repo.insert!(changeset) end)
+parking_params = [
+    %{name: "Alem Ethiopian Village", point: %Geo.Point{coordinates: {-87.9074701, 43.0387105}, srid: 4326}},
+    %{name: "Swingin' Door Exchange", point: %Geo.Point{coordinates: {-87.9082446, 43.0372896}, srid: 4326}},
+    %{name: "Milwaukee Public Market", point: %Geo.Point{coordinates: {-87.9091676, 43.035253}, srid: 4326}}
+    %{name: "Odd Duck", point: %Geo.Point{coordinates: {-87.9033059, 43.0020021}, srid: 4326}}
+  ]
+  
+  Enum.each(parking_params, fn(params) ->
+    TartuParking.Parking.changeset(%TartuParking.Parking{}, params)
+    |> TartuParking.Repo.insert!()
+  end)
