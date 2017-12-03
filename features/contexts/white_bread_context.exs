@@ -37,12 +37,12 @@ defmodule WhiteBreadContext do
   end
 
   and_ ~r/^I enter the destination address$/, fn state ->
-    fill_field({:id, "address_field"}, state[:address])
+    fill_field({:id, "address-field"}, state[:address])
     {:ok, state}
   end
 
   when_ ~r/^I submit the request$/, fn state ->
-    click({:id, "search_button"})
+    click({:id, "search-button"})
     {:ok, state}
   end
 

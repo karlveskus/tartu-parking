@@ -7,7 +7,7 @@ defmodule TartuParking.Geolocator do
 	def find_closest_parkings(address) do
 
 		# Maximum distance between inserted destination and parking places in meters
-		max_distance = 1000
+		max_distance = 5000
 
 		query = from p in Parking, where: p.available_slots > 0, select: p
 		available_parkings = Repo.all(query)
@@ -18,11 +18,11 @@ defmodule TartuParking.Geolocator do
 			# Join parking places for Distancematrix API
 			joined_parking_addresses = 
 			available_parkings
-			|> Enum.map(fn(parking) -> parking.address <> " Tartu Estonia" end)
+			|> Enum.map(fn(parking) -> parking.address <> ", Tartu city, Estonia`" end)
 			|> Enum.join("|")
 
 			# Google Distancematrix API request to get distances for all available parking places
-			origin = address <> " Tartu Estonia" 
+			origin = address <> ", Tartu city, Estonia`" 
 			
 			url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origin}&destinations=#{joined_parking_addresses}")
 

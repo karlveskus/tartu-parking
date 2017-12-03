@@ -2,9 +2,9 @@
     <div class="wrapper">
         <div class="input-field">
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
-                type="text" placeholder="Enter parking address here"/>
+                id="address-field" type="text" placeholder="Enter parking address here"/>
             <span v-on:click="clear_address" class="clear-input">&times;</span>
-            <button v-on:click="get_parkings">Search</button>
+            <button v-on:click="get_parkings" id="search-button">Search</button>
         </div>
         <div class="google-map" :id="mapName"></div>
     </div>
@@ -22,7 +22,8 @@ export default {
             destionation_address: "",
             destionation_marker: null,
             closes_parkings_markers: [],
-            parking_info_window: null,
+            parking_info_window_hover: null,
+            parking_info_window_static: null
         }
     },
     methods: {
@@ -36,17 +37,32 @@ export default {
             axios.get(url)
             .then((res) => {
                 res.data.forEach((parking) => {
-                    this.geocoder.geocode({'address': parking.address + " Tartu"}, (results, status) => {
+                    this.geocoder.geocode({'address': `${parking.address}, Tartu city, Estonia`}, (results, status) => {
                         if (status == google.maps.GeocoderStatus.OK) {
-                            const marker_pos = results[0].geometry.location
-                            const marker = this.generate_marker_with_label(marker_pos, 'P')
+                            const position = results[0].geometry.location
+                            const marker = new google.maps.Marker({
+                                map: this.map,
+                                position,
+                                icon: '/images/marker_blueP.png'
+                            });
 
-                            marker.addListener('click', () => {
-                                this.close_info_window();
+                            marker.addListener('mouseover', () => {
+                                if (this.parking_info_window_static
+                                    && this.isInfoWindowOpen(this.parking_info_window_static)) return;
 
-                                this.parking_info_window = this.generate_info_window(parking);
-                                this.parking_info_window.open(this.map, marker);
+                                this.parking_info_window_hover = this.generate_info_window(parking);
+                                this.parking_info_window_hover.open(this.map, marker);
                             })
+                            marker.addListener('mouseout', () => {
+                                this.parking_info_window_hover.close();
+                            })
+                            marker.addListener('click', () => {
+                                this.parking_info_window_hover.close();
+
+                                this.parking_info_window_static = this.generate_info_window_with_button(parking);
+                                this.parking_info_window_static.open(this.map, marker);
+                            })
+
                             this.closes_parkings_markers.push(marker);
                         }
                     });
@@ -56,12 +72,15 @@ export default {
                 console.log(e)
             })
 
-            this.geocoder.geocode({'address': this.destionation_address + " Tartu"}, (results, status) => {
+            this.geocoder.geocode({'address': `${this.destionation_address}, Tartu city, Estonia`}, (results, status) => {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    const marker_pos = results[0].geometry.location
-                    this.map.setCenter(marker_pos);
-                    this.map.setZoom(16);
-                    this.destionation_marker = this.generate_marker_with_label(marker_pos, '')
+                    const position = results[0].geometry.location
+                    this.map.setCenter(position);
+                    this.map.setZoom(17);
+                    this.destionation_marker = new google.maps.Marker({
+                        map: this.map,
+                        position,
+                    });
                 } else {
                     console.log('Geocode was not successful for the following reason: ' + status);
                 }
@@ -78,7 +97,7 @@ export default {
             this.closes_parkings_markers.map((marker) => marker.setMap(null))
         },
         generate_info_window: function(parking_info) {
-            let infoWindowContent = `
+            const infoWindowContent = `
                 <div style="font-weight: 400; font-size: 14px; margin-bottom: 5px">${parking_info.address}</div>
                 <div>Available slots: ${parking_info.slots.available} / ${parking_info.slots.total}</div>
                 <div>Distance: ${parking_info.distance.distance.text}</div>
@@ -87,18 +106,24 @@ export default {
 
             return new google.maps.InfoWindow({ content: infoWindowContent });
         },
-        generate_marker_with_label: function(position, label) {
+        generate_info_window_with_button: function(parking_info) {
+            const info_window = this.generate_info_window(parking_info);
+            const infoWindowContent = info_window.content +
+                `<button>See details</button>`
+
+            return new google.maps.InfoWindow({ content: infoWindowContent });
+        },
+        generate_marker_with_icon: function(position, icon) {
             return new google.maps.Marker({
                 map: this.map,
                 position,
-                label
+                icon
             });
         },
-        close_info_window: function() {
-            if (this.parking_info_window) {
-                this.parking_info_window.close();
-            }
-        }
+        isInfoWindowOpen: function(infoWindow){
+            const map = infoWindow.getMap();
+            return (map !== null && typeof map !== "undefined");
+        },
     },
     mounted: function () {
         this.map = new google.maps.Map(
@@ -112,7 +137,7 @@ export default {
                 fullscreenControl: false
             }
         );
-    }
+    },
 };
 </script>
 
