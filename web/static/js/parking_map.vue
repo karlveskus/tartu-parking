@@ -18,31 +18,54 @@ export default {
             mapName: '#parking-map',
             map: null,
             destionation_address: "",
-            destionation_marker: null
+            destionation_marker: null,
+            closes_parkings_markers: []
         }
     },
     methods: {
         get_parkings: function() {
-            // Remove old marker if exists
-            if (this.destionation_marker !== null) this.destionation_marker.setMap(null)
+            this.remove_all_markers();
 
             let url = "/api/parkings?address=" + this.destionation_address
 
             axios.get(url)
-            .then((res) => console.log(res.data))
+            .then((res) => {
+                console.log(res.data);
 
-            this.geocoder.geocode({'address': this.destionation_address}, (results, status) => {
+                res.data.forEach((parking) => {
+                    this.geocoder.geocode({'address': parking.address + " Tartu"}, (results, status) => {
+                        if (status == google.maps.GeocoderStatus.OK) {
+                            this.closes_parkings_markers.push(new google.maps.Marker({
+                                map: this.map,
+                                position: results[0].geometry.location,
+                                label: 'P'
+                            }));
+                        }
+                    });
+                });
+            })
+            .catch((e) => {
+                console.log(e)
+            })
+
+            this.geocoder.geocode({'address': this.destionation_address + " Tartu"}, (results, status) => {
                 if (status == google.maps.GeocoderStatus.OK) {
                     this.map.setCenter(results[0].geometry.location);
                     this.destionation_marker = new google.maps.Marker({
                         map: this.map,
-                        position: results[0].geometry.location
+                        position: results[0].geometry.location,
                     });
                 } else {
                     console.log('Geocode was not successful for the following reason: ' + status);
                 }
             });
 
+        },
+        remove_all_markers: function() {
+            if (this.destionation_marker) {
+                this.destionation_marker.setMap(null);
+            }
+            this.closes_parkings_markers.map((marker) => marker.setMap(null))
         }
     },
     mounted: function () {
