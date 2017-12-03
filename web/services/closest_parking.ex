@@ -18,11 +18,11 @@ defmodule TartuParking.Geolocator do
 			# Join parking places for Distancematrix API
 			joined_parking_addresses = 
 			available_parkings
-			|> Enum.map(fn(parking) -> parking.address <> " Tartu Estonia" end)
+			|> Enum.map(fn(parking) -> parking.address <> ", Tartu city, Estonia`" end)
 			|> Enum.join("|")
 
 			# Google Distancematrix API request to get distances for all available parking places
-			origin = address <> " Tartu Estonia" 
+			origin = address <> ", Tartu city, Estonia`" 
 			
 			url = URI.encode("http://maps.googleapis.com/maps/api/distancematrix/json?origins=#{origin}&destinations=#{joined_parking_addresses}")
 
