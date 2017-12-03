@@ -1,7 +1,9 @@
 <template>
     <div class="wrapper">
         <div class="input-field">
-            <input v-model="destionation_address" v-on:keyup.enter="get_parkings" type="text" placeholder="Enter parking address here"/>
+            <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
+                type="text" placeholder="Enter parking address here"/>
+            <span v-on:click="clear_address" class="clear-input">&times;</span>
             <button v-on:click="get_parkings">Search</button>
         </div>
         <div class="google-map" :id="mapName"></div>
@@ -17,7 +19,7 @@ export default {
             geocoder: new google.maps.Geocoder(),
             mapName: '#parking-map',
             map: null,
-            destionation_address: "Ülikooli 17",
+            destionation_address: "",
             destionation_marker: null,
             closes_parkings_markers: [],
             parking_info_window: null,
@@ -25,14 +27,14 @@ export default {
     },
     methods: {
         get_parkings: function() {
+            if (this.destionation_address === "") return;
+
             this.remove_all_markers();
 
             let url = "/api/parkings?address=" + this.destionation_address
 
             axios.get(url)
             .then((res) => {
-                console.log(res.data);
-
                 res.data.forEach((parking) => {
                     this.geocoder.geocode({'address': parking.address + " Tartu"}, (results, status) => {
                         if (status == google.maps.GeocoderStatus.OK) {
@@ -65,6 +67,9 @@ export default {
                 }
             });
 
+        },
+        clear_address: function() {
+            this.destionation_address = "";
         },
         remove_all_markers: function() {
             if (this.destionation_marker) {
@@ -136,8 +141,14 @@ div.wrapper {
             font: inherit;
             margin: 0;
             outline: 0;
-            padding: 10px 10px;
+            padding: 10px 30px 10px 10px;
             width: 290px;
+
+            @media (max-width: 768px) {
+                & {
+                    width: calc(100% - 70px);
+                }
+            }
 
             &:active, &:focus {
                 border: 1px solid #4a80f5;
@@ -149,9 +160,21 @@ div.wrapper {
             }
         }
 
-        @media (max-width: 768px) {
-            input {
-                width: calc(100% - 70px);
+        .clear-input {
+            color: #929292;
+            cursor: pointer;
+            height: 32px;
+            font-size: 28px;
+            left: 270px;
+            margin-top: 4px;
+            position: absolute;
+            padding: 0 4px;
+
+            @media (max-width: 768px) {
+                & {
+                    left: auto;
+                    right: 88px;
+                }
             }
         }
 
