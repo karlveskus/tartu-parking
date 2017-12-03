@@ -17,9 +17,10 @@ export default {
             geocoder: new google.maps.Geocoder(),
             mapName: '#parking-map',
             map: null,
-            destionation_address: "",
+            destionation_address: "Ülikooli 17",
             destionation_marker: null,
-            closes_parkings_markers: []
+            closes_parkings_markers: [],
+            parking_info_window: null,
         }
     },
     methods: {
@@ -35,11 +36,16 @@ export default {
                 res.data.forEach((parking) => {
                     this.geocoder.geocode({'address': parking.address + " Tartu"}, (results, status) => {
                         if (status == google.maps.GeocoderStatus.OK) {
-                            this.closes_parkings_markers.push(new google.maps.Marker({
-                                map: this.map,
-                                position: results[0].geometry.location,
-                                label: 'P'
-                            }));
+                            const marker_pos = results[0].geometry.location
+                            const marker = this.generate_marker_with_label(marker_pos, 'P')
+
+                            marker.addListener('click', () => {
+                                this.close_info_window();
+
+                                this.parking_info_window = this.generate_info_window(parking);
+                                this.parking_info_window.open(this.map, marker);
+                            })
+                            this.closes_parkings_markers.push(marker);
                         }
                     });
                 });
@@ -50,11 +56,10 @@ export default {
 
             this.geocoder.geocode({'address': this.destionation_address + " Tartu"}, (results, status) => {
                 if (status == google.maps.GeocoderStatus.OK) {
-                    this.map.setCenter(results[0].geometry.location);
-                    this.destionation_marker = new google.maps.Marker({
-                        map: this.map,
-                        position: results[0].geometry.location,
-                    });
+                    const marker_pos = results[0].geometry.location
+                    this.map.setCenter(marker_pos);
+                    this.map.setZoom(16);
+                    this.destionation_marker = this.generate_marker_with_label(marker_pos, '')
                 } else {
                     console.log('Geocode was not successful for the following reason: ' + status);
                 }
@@ -66,6 +71,28 @@ export default {
                 this.destionation_marker.setMap(null);
             }
             this.closes_parkings_markers.map((marker) => marker.setMap(null))
+        },
+        generate_info_window: function(parking_info) {
+            let infoWindowContent = `
+                <div style="font-weight: 400; font-size: 14px; margin-bottom: 5px">${parking_info.address}</div>
+                <div>Available slots: ${parking_info.slots.available} / ${parking_info.slots.total}</div>
+                <div>Distance: ${parking_info.distance.distance.text}</div>
+                <div>Duration: ${parking_info.distance.duration.text}</div>
+            `;
+
+            return new google.maps.InfoWindow({ content: infoWindowContent });
+        },
+        generate_marker_with_label: function(position, label) {
+            return new google.maps.Marker({
+                map: this.map,
+                position,
+                label
+            });
+        },
+        close_info_window: function() {
+            if (this.parking_info_window) {
+                this.parking_info_window.close();
+            }
         }
     },
     mounted: function () {
