@@ -19,7 +19,7 @@ export default {
             geocoder: new google.maps.Geocoder(),
             mapName: '#parking-map',
             map: null,
-            destionation_address: "",
+            destionation_address: "Liivi 2",
             destionation_marker: null,
             closes_parkings_markers: [],
             parking_info_window_hover: null,
@@ -28,6 +28,7 @@ export default {
     },
     methods: {
         get_parkings: function() {
+            document.activeElement.blur();
             if (this.destionation_address === "") return;
 
             this.remove_all_markers();
@@ -47,8 +48,7 @@ export default {
                             });
 
                             marker.addListener('mouseover', () => {
-                                if (this.parking_info_window_static
-                                    && this.isInfoWindowOpen(this.parking_info_window_static)) return;
+                                if (this.isInfoWindowOpen(this.parking_info_window_static)) return;
 
                                 this.parking_info_window_hover = this.generate_info_window(parking);
                                 this.parking_info_window_hover.open(this.map, marker);
@@ -57,6 +57,8 @@ export default {
                                 this.parking_info_window_hover.close();
                             })
                             marker.addListener('click', () => {
+                                if (this.isInfoWindowOpen(this.parking_info_window_static)) return;
+
                                 this.parking_info_window_hover.close();
 
                                 this.parking_info_window_static = this.generate_info_window_with_button(parking);
@@ -109,9 +111,14 @@ export default {
         generate_info_window_with_button: function(parking_info) {
             const info_window = this.generate_info_window(parking_info);
             const infoWindowContent = info_window.content +
-                `<button>See details</button>`
+                `<button 
+                    style="margin: 5px 0 4px 23px ; border-radius: 0; height: 25px;
+                        color: white; background: #4a80f5; outline: none; border: 0; font-size: 13px;
+                        font-weight: 100; cursor: pointer; padding: 0 20px;
+                        box-shadow: 0 1px 1px rgba(0,0,0,0.16), 0 2px 5px rgba(0,0,0,0.23);" 
+                    onClick='window.see_details()'>See details</button>`
 
-            return new google.maps.InfoWindow({ content: infoWindowContent });
+            return new google.maps.InfoWindow({ address: parking_info.address, content: infoWindowContent });
         },
         generate_marker_with_icon: function(position, icon) {
             return new google.maps.Marker({
@@ -121,8 +128,9 @@ export default {
             });
         },
         isInfoWindowOpen: function(infoWindow){
-            const map = infoWindow.getMap();
-            return (map !== null && typeof map !== "undefined");
+            return (infoWindow
+                && infoWindow.getMap() !== null
+                && typeof infoWindow.getMap() !== "undefined");
         },
     },
     mounted: function () {
@@ -137,6 +145,10 @@ export default {
                 fullscreenControl: false
             }
         );
+
+        window.see_details = () => {
+            console.log(this.parking_info_window_static.address)
+        }
     },
 };
 </script>
@@ -159,7 +171,7 @@ div.wrapper {
             background: #fff;
             border: 1px solid #fff;
             border-radius: 0;
-            box-shadow: 0 2px 6px 0px rgba(0, 0, 0, .2);
+            box-shadow: 0 3px 6px 0px rgba(0, 0, 0, .16);
             box-sizing: border-box;
             color: #929292;
             float: left;
@@ -207,7 +219,7 @@ div.wrapper {
             background: #4a80f5;
             border: 0;
             border-radius: 0;
-            box-shadow: 0 2px 6px 0px rgba(0, 0, 0, .2);
+            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
             color: white;
             float: left;
             font-family: inherit;

@@ -7,7 +7,7 @@ defmodule TartuParking.Geolocator do
 	def find_closest_parkings(address) do
 
 		# Maximum distance between inserted destination and parking places in meters
-		max_distance = 5000
+		max_distance = 500
 
 		query = from p in Parking, where: p.available_slots > 0, select: p
 		available_parkings = Repo.all(query)
