@@ -206,6 +206,7 @@ div.wrapper {
         button {
             background: #4a80f5;
             border: 0;
+            border-radius: 0;
             box-shadow: 0 2px 6px 0px rgba(0, 0, 0, .2);
             color: white;
             float: left;
