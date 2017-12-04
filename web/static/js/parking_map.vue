@@ -19,11 +19,12 @@ export default {
             geocoder: new google.maps.Geocoder(),
             mapName: '#parking-map',
             map: null,
-            destionation_address: "Liivi 2",
+            destionation_address: "",
             destionation_marker: null,
             closes_parkings_markers: [],
             parking_info_window_hover: null,
-            parking_info_window_static: null
+            parking_info_window_static: null,
+            parking_polygons: [],
         }
     },
     methods: {
@@ -32,6 +33,7 @@ export default {
             if (this.destionation_address === "") return;
 
             this.remove_all_markers();
+            this.remove_all_polygons();
 
             let url = "/api/parkings?address=" + this.destionation_address
 
@@ -40,10 +42,32 @@ export default {
                 res.data.forEach((parking) => {
                     this.geocoder.geocode({'address': `${parking.address}, Tartu city, Estonia`}, (results, status) => {
                         if (status == google.maps.GeocoderStatus.OK) {
+
+                            const coords = parking.coordinates
+                            
+                            const area = new google.maps.Polygon({
+                                paths: coords,
+                                strokeColor: '#000099',
+                                strokeOpacity: 0.8,
+                                strokeWeight: 2,
+                                fillColor: '#3232ad',
+                                fillOpacity: 0.45,
+                            });
+
+                            area.setMap(this.map);
+                            this.parking_polygons.push(area);
+
+
+                            const bounds = new google.maps.LatLngBounds();
+                            area.getPath().forEach(function (path, index) {
+                                bounds.extend(path);
+                            });
+
+                            
                             const position = results[0].geometry.location
                             const marker = new google.maps.Marker({
                                 map: this.map,
-                                position,
+                                position: bounds.getCenter(),
                                 icon: '/images/marker_blueP.png'
                             });
 
@@ -98,12 +122,14 @@ export default {
             }
             this.closes_parkings_markers.map((marker) => marker.setMap(null))
         },
+        remove_all_polygons: function() {
+            this.parking_polygons.map((polygon) => polygon.setMap(null))
+        },
         generate_info_window: function(parking_info) {
             const infoWindowContent = `
                 <div style="font-weight: 400; font-size: 14px; margin-bottom: 5px">${parking_info.address}</div>
                 <div>Available slots: ${parking_info.slots.available} / ${parking_info.slots.total}</div>
-                <div>Distance: ${parking_info.distance.distance.text}</div>
-                <div>Duration: ${parking_info.distance.duration.text}</div>
+                <div>Distance: ${parking_info.distance}</div>
             `;
 
             return new google.maps.InfoWindow({ content: infoWindowContent });
