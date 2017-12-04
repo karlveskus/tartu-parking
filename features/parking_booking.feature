@@ -14,7 +14,7 @@ Scenario: Choosing place via mobile phone (with available places)
    And I open FindMeParking mobile application
    And I enter the destination address
    When I submit the request
-   Then Map with parkings places should be displayed
+   Then Map with parking places should be displayed
 
  Scenario: Choosing place via mobile phone (with no parking places)
    Given the following parking places are in the area
@@ -27,4 +27,4 @@ Scenario: Choosing place via mobile phone (with available places)
    And I open FindMeParking mobile application
    And I enter the destination address
    When I submit the request
-   Then I should receive a rejection message
+   Then Map with no parking places should be displayed
