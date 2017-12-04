@@ -25,6 +25,7 @@ defmodule TartuParking.Router do
 
     resources "/users", UserController
 
-    get "/parkings", ParkingAPIController, :index
+    resources "/parkings", ParkingAPIController, only: [:index]
+    resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
   end
 end
