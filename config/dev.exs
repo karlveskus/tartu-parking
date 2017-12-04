@@ -45,6 +45,8 @@ config :logger, :console, format: "[$level] $message\n"
 # Set a higher stacktrace during development. Avoid configuring such
 # in production as building large stacktraces may be expensive.
 config :phoenix, :stacktrace_depth, 20
+# Postgrex.Types.define(TartuParking.PostgresTypes, [Geo.PostGIS.Extension], [])
+
 
 # Configure your database
 config :tartu_parking, TartuParking.Repo,
@@ -53,8 +55,11 @@ config :tartu_parking, TartuParking.Repo,
   password: "postgres",
   database: "tartu_parking_dev",
   hostname: "localhost",
-  pool_size: 10
+  port:    "5432",
+  pool_size: 10,
+  extensions: [{Geo.PostGIS.Extension, library: Geo}],
+  types: TartuParking.PostgresTypes
 
   config :tartu_parking, :http_client, HTTPoison
   
-  config :tartu_parking, decision_timeout: 30000   # 30 seconds
+  
