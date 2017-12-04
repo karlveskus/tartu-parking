@@ -1,24 +1,6 @@
-# Script for populating the database. You can run it as:
-#
-#     mix run priv/repo/seeds.exs
-#
-# Inside the script, you can read and write to any of your
-# repositories directly:
-#
-#     TartuParking.Repo.insert!(%TartuParking.SomeModel{})
-#
-# We recommend using the bang functions (`insert!`, `update!`
-# and so on) as they will halt execution if something goes wrong.
 alias TartuParking.{Repo, Parking}
-
-parking_params = [
-    %{name: "Alem Ethiopian Village", point: %Geo.Point{coordinates: {-87.9074701, 43.0387105}, srid: 4326}},
-    %{name: "Swingin' Door Exchange", point: %Geo.Point{coordinates: {-87.9082446, 43.0372896}, srid: 4326}},
-    %{name: "Milwaukee Public Market", point: %Geo.Point{coordinates: {-87.9091676, 43.035253}, srid: 4326}}
-    %{name: "Odd Duck", point: %Geo.Point{coordinates: {-87.9033059, 43.0020021}, srid: 4326}}
-  ]
-  
-  Enum.each(parking_params, fn(params) ->
-    TartuParking.Parking.changeset(%TartuParking.Parking{}, params)
-    |> TartuParking.Repo.insert!()
-  end)
+[%{address: "Turu 2", available_slots: "20", total_slots: "20", coordinates: %Geo.MultiPoint{coordinates: [{58.378142,26.730588}, {58.377779, 26.731264}, {58.377447,26.730622},  {58.37787, 26.729930}], srid: 4326}},
+ %{address: "Turu 4", available_slots: "30", total_slots: "10", coordinates: %Geo.MultiPoint{coordinates: [{58.388142,26.730588}, {58.387779, 26.741264}, {58.387447,26.740622},  {58.34787, 26.779930}], srid: 4326}}
+]
+|> Enum.map(fn parking -> Parking.changeset(%Parking{}, parking) end)
+|> Enum.each(fn changeset -> Repo.insert!(changeset) end)
