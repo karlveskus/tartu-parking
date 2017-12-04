@@ -2,7 +2,7 @@ defmodule TartuParking.BookingAPIController do
   use TartuParking.Web, :controller
   alias TartuParking.{Repo,Booking,User,Parking}
   alias Ecto.{Changeset}
-  import Ecto.Query, only: [from: 2]  
+  import Ecto.Query, only: [from: 2]
 
   def index(conn, params) do
     {status, bookings} =

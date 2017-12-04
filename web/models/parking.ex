@@ -6,6 +6,8 @@ defmodule TartuParking.Parking do
       field :total_slots, :integer
       field :coordinates, Geo.MultiPoint
       field :distance, :float, virtual: true
+      has_many :bookings, TartuParking.Booking
+  
       timestamps()
     end
   
