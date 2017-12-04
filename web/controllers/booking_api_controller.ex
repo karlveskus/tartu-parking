@@ -2,18 +2,23 @@ defmodule TartuParking.BookingAPIController do
   use TartuParking.Web, :controller
   alias TartuParking.{Repo,Booking,User,Parking}
   alias Ecto.{Changeset}
+  import Ecto.Query, only: [from: 2]  
 
-  def index(conn, _params) do
-    user_id = 1
-
-    bookings = 
-      Repo.all(Booking)
-      |> Enum.map(fn(booking) ->
-        %{
-          'booking_id': booking.id,
-          'user_id': booking.user_id,
-          'parking_id': booking.parking_id
-        } end)
+  def index(conn, params) do
+    {status, bookings} =
+      case Map.fetch(params, "user_id") do
+        :error ->
+          {400, []}
+        {:ok, user_id} ->
+          bookings = Repo.all(from t in Booking, where: t.user_id == ^user_id, select: t)
+            |> Enum.map(fn(booking) ->
+              %{
+                'booking_id': booking.id,
+                'user_id': booking.user_id,
+                'parking_id': booking.parking_id
+              } end)
+          {200, bookings}
+      end
     
     conn
     |> put_status(200)
@@ -36,8 +41,6 @@ defmodule TartuParking.BookingAPIController do
       
           booking = Repo.insert!(changeset)
 
-          IO.inspect booking
-
           {201, "Booking created"}
       end
 
@@ -48,9 +51,6 @@ defmodule TartuParking.BookingAPIController do
 
 
   def delete(conn, params) do
-    IO.puts "params"
-    IO.inspect params
-
     user_id = 1
     
     {status, response} = 
@@ -58,7 +58,7 @@ defmodule TartuParking.BookingAPIController do
         :error -> 
           {400, "Booking not removed"}
         {:ok, booking_id} ->
-          
+
           booking = Repo.get(Booking, Integer.parse(booking_id) |> elem(0))
 
           case booking do
