@@ -36,7 +36,7 @@ defmodule TartuParking.Mixfile do
     [
       {:cowboy, "~> 1.0"},
       {:geo, "~> 2.0"},
-      {:geo_postgis, "~> 1.0"}
+      {:geo_postgis, "~> 1.0"},
       {:gettext, "~> 0.11"},
       {:hound, "~> 1.0"},
       {:httpoison, "~> 0.13"},
