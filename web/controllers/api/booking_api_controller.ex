@@ -17,11 +17,16 @@ defmodule TartuParking.BookingAPIController do
 
           bookings = Repo.all(from t in Booking, where: t.user_id == ^user_id, select: t)
             |> Enum.map(fn(booking) ->
-              %{
-                'booking_id': booking.id,
-                'user_id': booking.user_id,
-                'parking_id': booking.parking_id
-              } end)
+            parking = Repo.get!(Parking, booking.parking_id)
+
+            %{
+              'booking_id': booking.id,
+              'user_id': booking.user_id,
+              'parking': %{
+                'id': parking.id,
+                'address': parking.address
+              }
+            } end)
 
           {200, bookings}
       end
