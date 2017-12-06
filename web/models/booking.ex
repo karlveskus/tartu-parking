@@ -1,5 +1,6 @@
 defmodule TartuParking.Booking do
   use TartuParking.Web, :model
+  @derive {Poison.Encoder, only: [:id, :user_id, :parking_id]}
 
   schema "bookings" do
     belongs_to :user, TartuParking.User, foreign_key: :user_id

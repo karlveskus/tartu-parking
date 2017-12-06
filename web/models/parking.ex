@@ -1,5 +1,7 @@
 defmodule TartuParking.Parking do
     use TartuParking.Web, :model
+    @derive {Poison.Encoder, only: [:id, :address, :available_slots, :total_slots]}
+
     schema "parkings" do
       field :address, :string
       field :available_slots, :integer

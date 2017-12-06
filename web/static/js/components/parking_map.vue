@@ -173,7 +173,7 @@ export default {
         );
 
         window.see_details = () => {
-            console.log(this.parking_info_window_static.address)
+            window.location.href = '/bookings?parking_id=1';
         }
     },
 };
@@ -197,7 +197,7 @@ div.wrapper {
             background: #fff;
             border: 1px solid #fff;
             border-radius: 0;
-            box-shadow: 0 3px 6px 0px rgba(0, 0, 0, .16);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             box-sizing: border-box;
             color: #929292;
             float: left;
@@ -245,7 +245,7 @@ div.wrapper {
             background: #4a80f5;
             border: 0;
             border-radius: 0;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             color: white;
             float: left;
             font-family: inherit;

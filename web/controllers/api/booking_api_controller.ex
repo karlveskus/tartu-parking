@@ -20,12 +20,9 @@ defmodule TartuParking.BookingAPIController do
             parking = Repo.get!(Parking, booking.parking_id)
 
             %{
-              'booking_id': booking.id,
+              'id': booking.id,
               'user_id': booking.user_id,
-              'parking': %{
-                'id': parking.id,
-                'address': parking.address
-              }
+              'parking': parking
             } end)
 
           {200, bookings}
