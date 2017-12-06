@@ -2,8 +2,8 @@ defmodule TartuParking.Zone do
   use TartuParking.Web, :model
 
   schema "zones" do
-    field :id, :string
     field :name, :string
+    has_many :parkings, TartuParking.Parking
 
     timestamps()
   end
@@ -13,7 +13,7 @@ defmodule TartuParking.Zone do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:id, :name])
-    |> validate_required([:id, :name])
+    |> cast(params, [:name])
+    #|> validate_required([:id, :name])
   end
 end
