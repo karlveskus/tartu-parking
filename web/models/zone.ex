@@ -4,6 +4,9 @@ defmodule TartuParking.Zone do
   schema "zones" do
     field :name, :string
     has_many :parkings, TartuParking.Parking
+    field :price_per_hour, :float
+    field :price_per_min, :float
+    field :free_time, :integer
 
     timestamps()
   end

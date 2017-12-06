@@ -10,7 +10,7 @@ defmodule TartuParking.Parking do
       field :distance, :float, virtual: true
       has_many :bookings, TartuParking.Booking
       belongs_to :zone, TartuParking.Zone, foreign_key: :zone_id
-      
+
       timestamps()
     end
   

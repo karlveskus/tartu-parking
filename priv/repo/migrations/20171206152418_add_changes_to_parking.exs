@@ -1,4 +1,4 @@
-defmodule TartuParking.Repo.Migrations.AddZoneIdToParking do
+defmodule TartuParking.Repo.Migrations.AddChangesToParking do
   use Ecto.Migration
 
   def change do
