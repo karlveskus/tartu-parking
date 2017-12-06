@@ -1,27 +1,34 @@
 <template>
-  <div>
-    <!-- {{ parking_id }}<br> -->
+  <section>
     <h2>Currently parking</h2>
     <booking-item v-for="booking in bookings" 
       :booking_data="booking" :finish_parking="finish_parking"/>
-  </div>
+    <div v-if="parking_data_json" >
+      <h2>Book a new parking</h2>
+      <new-booking :parking_data="parking_data_json" />
+    </div>
+  </section>
+  
 </template>
 
 <script>
 import axios from "axios";
 import booking_item from './booking_item.vue';
+import new_booking from './new_booking.vue';
 
 export default {
   data: function() {
     return {
-      bookings: []
+      bookings: [],
+      parking_data_json: null
     }
   },
   components: {
-    'booking-item': booking_item
+    'booking-item': booking_item,
+    'new-booking': new_booking
   },
   props: [
-    'parking_id',
+    'parking_data',
     'user_id'
   ],
   methods: {
@@ -35,10 +42,12 @@ export default {
           return booking.id != booking_id
         })
       })
-    }
+    },
   },
   mounted: function() {
     const url = "/api/bookings";
+      this.parking_data_json = JSON.parse(this.parking_data);
+      
       axios.defaults.headers.common['user_id'] = this.user_id;
 
       axios.get(url)
@@ -50,7 +59,7 @@ export default {
 </script>
 
 <style scoped lang="scss">
-div{
+section{
   margin: 0 auto;
   width: 600px;
 
@@ -63,7 +72,7 @@ div{
   h2 {
     color: #4285f4;
     font-size: 25px;
-    margin: 15px 15px 10px;
+    margin: 20px 10px 10px;
   }
 
 

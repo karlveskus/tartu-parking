@@ -1,48 +1,39 @@
 <template>
   <section>
-    <h3>{{booking_data.parking.address}}</h3>
-    <div>
-      Available slots: {{ booking_data.parking.available_slots }} / {{ booking_data.parking.total_slots }}
-    </div>
-    <button v-on:click="finish_parking(booking_data.id)" class="finish-parking">Finish parking</button>
+    <h3>{{ parking_data.address }}</h3>
+    <p>Total slots: {{ parking_data.total_slots }}</p>
+    <p>Available slots: {{ parking_data.available_slots }}</p>
+    <button id="book-parking">Book a spot</button>
   </section>
 </template>
 
 <script>
-import axios from "axios";
-
 export default {
-  name: "booking_item",
-  props: [
-    'booking_data',
-    'finish_parking'
-  ],
+  props: ['parking_data']
 }
 </script>
 
 <style scoped lang="scss">
 section {
-  background: #34a853;
+  background: #4285f4;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   color: white;
-  font-size: 16px;
-  margin-top: 10px;
+  padding: 10px;
   position: relative;
-  padding: 5px 10px;
 
   h3 {
     font-size: 20px;
   }
 
-  button.finish-parking {
-    -webkit-tap-highlight-color: #ea4335;
-    background: #ea4335;
+  #book-parking {
+    -webkit-tap-highlight-color: #34a853;
+    background: #34a853;
     border: 0;
     border-radius: 0;
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     color: white;
     font-size: inherit;
-    height: 70%;
+    height: 40px;
     margin: 0;
     outline: none;
     position: absolute;
@@ -50,13 +41,12 @@ section {
     top: 50%;
     transform: translateY(-50%);
     width: 135px;
-
+    
     &:hover, &:active {
       cursor: pointer;
       background: white;
-      color: #ea4335;
+      color: #34a853;
     }
   }
-
 }
 </style>

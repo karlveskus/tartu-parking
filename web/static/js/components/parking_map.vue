@@ -135,6 +135,7 @@ export default {
             return new google.maps.InfoWindow({ content: infoWindowContent });
         },
         generate_info_window_with_button: function(parking_info) {
+            console.log(parking_info);
             const info_window = this.generate_info_window(parking_info);
             const infoWindowContent = info_window.content +
                 `<button 
@@ -142,7 +143,7 @@ export default {
                         color: white; background: #4a80f5; outline: none; border: 0; font-size: 13px;
                         font-weight: 100; cursor: pointer; padding: 0 20px;
                         box-shadow: 0 1px 1px rgba(0,0,0,0.16), 0 2px 5px rgba(0,0,0,0.23);" 
-                    onClick='window.see_details()'>See details</button>`
+                    onClick='window.redirect_to_booking(${parking_info.id})'>See details</button>`
 
             return new google.maps.InfoWindow({ address: parking_info.address, content: infoWindowContent });
         },
@@ -172,8 +173,8 @@ export default {
             }
         );
 
-        window.see_details = () => {
-            window.location.href = '/bookings?parking_id=1';
+        window.redirect_to_booking = (parking_id) => {
+            window.location.href = '/bookings?parking_id=' + parking_id;
         }
     },
 };
