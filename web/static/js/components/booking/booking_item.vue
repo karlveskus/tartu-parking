@@ -22,13 +22,13 @@ export default {
 
 <style scoped lang="scss">
 section {
-  background: #34a853;
+  background: #4285f4;
   box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
   color: white;
   font-size: 16px;
-  margin-top: 10px;
+  margin-bottom: 15px;
   position: relative;
-  padding: 5px 10px;
+  padding: 10px 10px;
 
   h3 {
     font-size: 20px;
@@ -42,7 +42,7 @@ section {
     box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     color: white;
     font-size: inherit;
-    height: 70%;
+    height: 40px;
     margin: 0;
     outline: none;
     position: absolute;
