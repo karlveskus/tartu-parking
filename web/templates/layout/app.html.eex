@@ -4,17 +4,30 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Tartu Parking</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <title>TartuParking</title>
   </head>
 
   <body>
-    
+  <div class="container">
+    <header class="header">
+      <ol class="breadcrumb pull-right">
+        <%= if Guardian.Plug.current_resource(@conn) do %>
+          <li>Hello <%= Guardian.Plug.current_resource(@conn).username %></li>
+          <li><%= link "Log out", to: session_path(@conn, :delete, Guardian.Plug.current_resource(@conn)), method: "delete" %></li>
+        <% else %>
+          <li><%= link "Log in", to: session_path(@conn, :new) %></li>
+        <% end %>
+      </ol>
+    </header>
+
     <main role="main">
       <%= render @view_module, @view_template, assigns %>
     </main>
 
-    <script src="https://maps.googleapis.com/maps/api/js?libraries=drawing&key=AIzaSyBQek7NQLBPy99BvR8O9Z1SPzCs9OasrSo&v=3"></script>        
+    <script src="https://maps.googleapis.com/maps/api/js?libraries=drawing&key=AIzaSyBQek7NQLBPy99BvR8O9Z1SPzCs9OasrSo&v=3"></script>
+
     <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+  </div>
   </body>
 </html>

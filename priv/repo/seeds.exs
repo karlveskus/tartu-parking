@@ -19,7 +19,9 @@ alias TartuParking.{Repo,Parking,User, Zone}
 |> Enum.map(fn parking -> Parking.changeset(%Parking{}, parking) end)
 |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
 
-
-[%{name: "John Doe", username: "john.doe", password: "password"}]
+[
+  %{name: "User", username: "user", password: "user"},
+  %{name: "Admin", username: "admin", password: "admin"}
+]
 |> Enum.map(fn user -> User.changeset(%User{}, user) end)
 |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
