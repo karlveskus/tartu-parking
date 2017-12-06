@@ -35,7 +35,7 @@ export default {
             this.remove_all_markers();
             this.remove_all_polygons();
 
-            let url = "/api/parkings?address=" + this.destionation_address
+            const url = "/api/parkings?address=" + this.destionation_address
 
             axios.get(url)
             .then((res) => {

@@ -1,3 +1,4 @@
 <div id="parking-app">
-    <bookings></bookings>
+    <booking parking_id="<%= @parking_id %>"
+             user_id="<%= @user_id %>" />
 </div>
