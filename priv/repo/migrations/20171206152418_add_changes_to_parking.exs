@@ -7,6 +7,5 @@ defmodule TartuParking.Repo.Migrations.AddChangesToParking do
     end
 
     create index(:parkings, [:zone_id])
-  
   end
 end
