@@ -15,7 +15,7 @@ defmodule WhiteBreadContext do
   end
   scenario_finalize fn _status, _state ->
     Ecto.Adapters.SQL.Sandbox.checkin(TartuParking.Repo)
-    Hound.end_session
+    #Hound.end_session
   end
 
   # Choosing place via mobile phone (with available places)
