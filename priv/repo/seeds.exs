@@ -7,6 +7,7 @@ alias TartuParking.{Repo,Parking,User, Zone}
 |> Enum.map(fn zone -> Zone.changeset(%Zone{}, zone) end)
 |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
 
+
 [
   %{address: "Turu 6", available_slots: "20", total_slots: "20", zone_id: 1,
     coordinates: %Geo.MultiPoint{coordinates: [{26.7309567,58.3771372}, {26.7321262,58.3764495}, {26.733073,58.3768869}, {26.7318392,58.3775929}, {26.7309567,58.3771372}], srid: 4326} },
@@ -17,6 +18,7 @@ alias TartuParking.{Repo,Parking,User, Zone}
 ]
 |> Enum.map(fn parking -> Parking.changeset(%Parking{}, parking) end)
 |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
+
 
 [%{name: "John Doe", username: "john.doe", password: "password"}]
 |> Enum.map(fn user -> User.changeset(%User{}, user) end)
