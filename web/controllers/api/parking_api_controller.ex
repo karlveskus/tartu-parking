@@ -51,6 +51,7 @@ defmodule TartuParking.ParkingAPIController do
         available: parking.available_slots
       },
       zone: %{
+        id:   zone.id,
         name: zone.name, 
         price_per_hour: zone.price_per_hour,
         price_per_min:  zone.price_per_min,
