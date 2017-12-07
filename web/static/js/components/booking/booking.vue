@@ -1,8 +1,8 @@
 <template>
   <section>
-    <div v-if="bookings.length > 0" class="bookings">
+    <div v-if="bookings.length" class="bookings">
       <h2>Currently parking</h2>
-      <booking-item v-for="booking in bookings" 
+      <booking-item v-for="booking in bookings"
         :booking_data="booking" :finish_parking="finish_parking"/>
     </div>
     <div v-if="parking_data_json">
@@ -66,10 +66,13 @@ export default {
     }
   },
   mounted: function() {
-    const url = "/api/bookings";
-    this.parking_data_json = JSON.parse(this.parking_data);
+    if (this.parking_data) {
+      this.parking_data_json = JSON.parse(this.parking_data);
+    }
     
     axios.defaults.headers.common['user_id'] = this.user_id;
+
+    const url = "/api/bookings";
 
     axios.get(url)
     .then((res) => {
