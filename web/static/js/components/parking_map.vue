@@ -35,7 +35,7 @@ export default {
             this.remove_all_markers();
             this.remove_all_polygons();
 
-            let url = "/api/parkings?address=" + this.destionation_address
+            const url = "/api/parkings?address=" + this.destionation_address
 
             axios.get(url)
             .then((res) => {
@@ -135,6 +135,7 @@ export default {
             return new google.maps.InfoWindow({ content: infoWindowContent });
         },
         generate_info_window_with_button: function(parking_info) {
+            console.log(parking_info);
             const info_window = this.generate_info_window(parking_info);
             const infoWindowContent = info_window.content +
                 `<button 
@@ -142,7 +143,7 @@ export default {
                         color: white; background: #4a80f5; outline: none; border: 0; font-size: 13px;
                         font-weight: 100; cursor: pointer; padding: 0 20px;
                         box-shadow: 0 1px 1px rgba(0,0,0,0.16), 0 2px 5px rgba(0,0,0,0.23);" 
-                    onClick='window.see_details()'>See details</button>`
+                    onClick='window.redirect_to_booking(${parking_info.id})'>See details</button>`
 
             return new google.maps.InfoWindow({ address: parking_info.address, content: infoWindowContent });
         },
@@ -172,8 +173,8 @@ export default {
             }
         );
 
-        window.see_details = () => {
-            console.log(this.parking_info_window_static.address)
+        window.redirect_to_booking = (parking_id) => {
+            window.location.href = '/bookings?parking_id=' + parking_id;
         }
     },
 };
@@ -197,7 +198,7 @@ div.wrapper {
             background: #fff;
             border: 1px solid #fff;
             border-radius: 0;
-            box-shadow: 0 3px 6px 0px rgba(0, 0, 0, .16);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             box-sizing: border-box;
             color: #929292;
             float: left;
@@ -245,7 +246,7 @@ div.wrapper {
             background: #4a80f5;
             border: 0;
             border-radius: 0;
-            box-shadow: 0 3px 6px rgba(0,0,0,0.16);
+            box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
             color: white;
             float: left;
             font-family: inherit;

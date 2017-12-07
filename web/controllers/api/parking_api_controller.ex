@@ -39,7 +39,7 @@ defmodule TartuParking.ParkingAPIController do
 
     conn
     |> put_status(200)
-    |> json(parkings)        
+    |> json(parkings)
   end
 
   def format_parking(parking) do

@@ -5,6 +5,7 @@ defmodule TartuParking.User do
     field :name, :string
     field :username, :string
     field :password, :string
+    has_many :bookings, TartuParking.Booking
 
     timestamps()
   end

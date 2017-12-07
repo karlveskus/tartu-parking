@@ -16,6 +16,8 @@ defmodule TartuParking.Router do
   scope "/", TartuParking do
     pipe_through :browser # Use the default browser stack
 
+    resources "/bookings", BookingController
+
     get "/", PageController, :index
     
   end
@@ -25,6 +27,7 @@ defmodule TartuParking.Router do
 
     resources "/users", UserController
 
-    get "/parkings", ParkingAPIController, :index
+    resources "/parkings", ParkingAPIController, only: [:index]
+    resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
   end
 end

@@ -1,11 +1,15 @@
 defmodule TartuParking.Parking do
     use TartuParking.Web, :model
+    @derive {Poison.Encoder, only: [:id, :address, :available_slots, :total_slots]}
+
     schema "parkings" do
       field :address, :string
       field :available_slots, :integer
       field :total_slots, :integer
       field :coordinates, Geo.MultiPoint
       field :distance, :float, virtual: true
+      has_many :bookings, TartuParking.Booking
+  
       timestamps()
     end
   
