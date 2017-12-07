@@ -3,13 +3,16 @@
     <h3>{{ parking_data.address }}</h3>
     <p>Total slots: {{ parking_data.total_slots }}</p>
     <p>Available slots: {{ parking_data.available_slots }}</p>
-    <button id="book-parking">Book a spot</button>
+    <button id="book-parking" v-on:click="start_parking">Book a spot</button>
   </section>
 </template>
 
 <script>
 export default {
-  props: ['parking_data']
+  props: [
+    'parking_data',
+    'start_parking'
+  ]
 }
 </script>
 

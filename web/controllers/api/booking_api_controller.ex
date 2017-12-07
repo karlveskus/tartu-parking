@@ -35,6 +35,7 @@ defmodule TartuParking.BookingAPIController do
 
   
   def create(conn, params) do
+    IO.inspect params
     
     user_id = get_req_header(conn, "user_id")
 
@@ -49,10 +50,11 @@ defmodule TartuParking.BookingAPIController do
             :error -> 
               {400, %{"message": "Missing Parking ID"}}
             {:ok, parking_id} ->
+
               changeset = 
                 Booking.changeset(%Booking{})
                 |> Changeset.put_change(:user, Repo.get!(User, user_id))
-                |> Changeset.put_change(:parking, Repo.get!(Parking, Integer.parse(parking_id) |> elem(0)))
+                |> Changeset.put_change(:parking, Repo.get!(Parking, parking_id))
           
               booking = Repo.insert!(changeset)
               

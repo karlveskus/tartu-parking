@@ -7,7 +7,7 @@
     </div>
     <div v-if="parking_data_json">
       <h2>Book a new parking</h2>
-      <new-booking :parking_data="parking_data_json" />
+      <new-booking :parking_data="parking_data_json" :start_parking="start_parking"/>
     </div>
     <button id="back-to-map" v-on:click="navigate_to_map">Back to map</button>
   </section>
@@ -46,20 +46,36 @@ export default {
         })
       })
     },
+    start_parking: function() {
+
+      axios.defaults.headers.common['user_id'] = this.user_id;
+
+      axios.post('api/bookings/', {parking_id: this.parking_data_json.id})
+      .then(() => {
+        const url = "/api/bookings";
+
+        axios.get(url)
+        .then((res) => {
+          this.bookings = res.data;
+          this.parking_data_json = null;
+        });
+      })
+    },
     navigate_to_map: function() {
       window.location.href = '/';
     }
   },
   mounted: function() {
     const url = "/api/bookings";
-      this.parking_data_json = JSON.parse(this.parking_data);
-      
-      axios.defaults.headers.common['user_id'] = this.user_id;
+    this.parking_data_json = JSON.parse(this.parking_data);
+    
+    axios.defaults.headers.common['user_id'] = this.user_id;
 
-      axios.get(url)
-      .then((res) => {
-        this.bookings = res.data
-      });
+    axios.get(url)
+    .then((res) => {
+      console.log(res.data)
+      this.bookings = res.data
+    });
   }
 }
 </script>
