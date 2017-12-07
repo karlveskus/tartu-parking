@@ -56,6 +56,7 @@ config :tartu_parking, TartuParking.Repo,
   database: "tartu_parking_dev",
   hostname: "localhost",
   port:    "5432",
+  pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 10,
   extensions: [{Geo.PostGIS.Extension, library: Geo}],
   types: TartuParking.PostgresTypes

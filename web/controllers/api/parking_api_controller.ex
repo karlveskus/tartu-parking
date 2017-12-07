@@ -1,7 +1,7 @@
 defmodule TartuParking.ParkingAPIController do
   @http_client Application.get_env(:tartu_parking, :http_client)
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo,Parking}
+  alias TartuParking.{Repo, Parking, Zone}
   Postgrex.Types.define(TartuParking.PostgresTypes,
     [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
     json: Poison)
@@ -33,7 +33,7 @@ defmodule TartuParking.ParkingAPIController do
             |> TartuParking.Parking.select_with_distance(point) 
             |> Repo.all
             |> Enum.map(fn (parking) -> format_parking(parking) end)
-              
+            
           parkings_in_range
         end
 
@@ -43,11 +43,19 @@ defmodule TartuParking.ParkingAPIController do
   end
 
   def format_parking(parking) do
+    zone = Repo.get!(Zone, parking.zone_id)
     %{
       address: parking.address,
       slots: %{
         total: parking.total_slots, 
         available: parking.available_slots
+      },
+      zone: %{
+        id:   zone.id,
+        name: zone.name, 
+        price_per_hour: zone.price_per_hour,
+        price_per_min:  zone.price_per_min,
+        free_time:      zone.free_time
       },
       distance: parking.distance |> Float.round(),
       id: parking.id,

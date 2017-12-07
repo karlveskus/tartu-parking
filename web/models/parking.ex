@@ -9,13 +9,14 @@ defmodule TartuParking.Parking do
       field :coordinates, Geo.MultiPoint
       field :distance, :float, virtual: true
       has_many :bookings, TartuParking.Booking
-  
+      belongs_to :zone, TartuParking.Zone, foreign_key: :zone_id
+
       timestamps()
     end
   
     def changeset(struct, params \\ %{}) do
       struct
-      |> cast(params, [:address, :available_slots, :total_slots, :coordinates])
+      |> cast(params, [:address, :available_slots, :total_slots, :coordinates, :zone_id])
     end
     
     # Returns the parkings which are in the given radius near the given point
