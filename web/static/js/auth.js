@@ -7,9 +7,11 @@ export default {
       .then(response => {
         this.username = creds.username;
         window.localStorage.setItem('token-'+this.username, response.data.token);
-
+console.log("I am here");
+console.log(context.$router);
         if (redirect)
-          context.$router.push({path: redirect});
+          //context.$router.push({path: redirect});
+          window.location.replace("/");
       })
       .catch(error => {
         console.log(error);
