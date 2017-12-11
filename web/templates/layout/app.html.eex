@@ -12,11 +12,11 @@
   <div class="container">
     <header class="header">
       <ol class="breadcrumb pull-right">
+      <br />
         <%= if Guardian.Plug.current_resource(@conn) do %>
           <li>Hello <%= Guardian.Plug.current_resource(@conn).username %></li>
-          <li><%= link "Log out", to: session_path(@conn, :delete, Guardian.Plug.current_resource(@conn)), method: "delete" %></li>
-        <% else %>
-          <li><%= link "Log in", to: session_path(@conn, :new) %></li>
+          <p class="pull-right">Already tired? <a href="/login" @click.prevent="logout">Log out!</a></p>
+          <%# <li><%= link "Log out", to: session_path(@conn, :delete, Guardian.Plug.current_resource(@conn)), method: "delete" %></li> %>
         <% end %>
       </ol>
     </header>

@@ -24,21 +24,17 @@ defmodule TartuParking.Router do
     resources "/sessions", SessionController, only: [:new, :create, :delete]
   end
 
-<<<<<<< HEAD
-    resources "/bookings", BookingController
-
-=======
   scope "/", TartuParking do
     pipe_through [:browser, :browser_auth]
->>>>>>> Add Authentication for users
+    resources "/bookings", BookingController
     get "/", PageController, :index
   end
 
   scope "/api", TartuParking do
-    pipe_through [:browser, :browser_auth, :require_login]
-   
+    pipe_through :api
+    post "/bookings", BookingAPIController, :create
+    post "/sessions", SessionAPIController, :create
     resources "/users", UserController
-    get "/parkings", ParkingAPIController, :index
   end
 
   pipeline :api do
@@ -48,8 +44,8 @@ defmodule TartuParking.Router do
   end
 
   pipeline :auth_api do
-    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController    
-    plug :guardian_current_user
+    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController  
+    plug :guardian_current_user  
   end
 
   scope "/api", TartuParking do
@@ -60,9 +56,13 @@ defmodule TartuParking.Router do
   scope "/api", TartuParking do
     pipe_through [:api, :auth_api]
     delete "/sessions/:id", SessionAPIController, :delete
+<<<<<<< HEAD
 
     resources "/parkings", ParkingAPIController, only: [:index]
     resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
+=======
+    #post "/bookings", BookingAPIController, :create
+>>>>>>> Add login with token
   end
 
   def guardian_current_user(conn, _) do

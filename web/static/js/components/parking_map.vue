@@ -1,5 +1,6 @@
 <template>
     <div class="wrapper">
+        <a href="/sessions/new" style="align:center;">Log in</a>
         <div class="input-field">
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
@@ -159,6 +160,9 @@ export default {
                 && infoWindow.getMap() !== null
                 && typeof infoWindow.getMap() !== "undefined");
         },
+        logout: function() {
+            auth.logout(this, { headers: auth.getAuthHeader() });
+        }
     },
     mounted: function () {
         this.map = new google.maps.Map(
