@@ -52,7 +52,7 @@ defmodule TartuParking.ParkingAPIController do
       },
       zone: %{
         id:   zone.id,
-        name: zone.name, 
+        name: zone.name,
         price_per_hour: zone.price_per_hour,
         price_per_min:  zone.price_per_min,
         free_time:      zone.free_time
