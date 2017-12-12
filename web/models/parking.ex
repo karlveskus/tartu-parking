@@ -17,6 +17,7 @@ defmodule TartuParking.Parking do
     def changeset(struct, params \\ %{}) do
       struct
       |> cast(params, [:address, :available_slots, :total_slots, :coordinates, :zone_id])
+      |> validate_required([:address, :available_slots, :total_slots, :coordinates, :zone_id])
     end
     
     # Returns the parkings which are in the given radius near the given point
