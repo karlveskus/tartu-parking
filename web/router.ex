@@ -56,13 +56,9 @@ defmodule TartuParking.Router do
   scope "/api", TartuParking do
     pipe_through [:api, :auth_api]
     delete "/sessions/:id", SessionAPIController, :delete
-<<<<<<< HEAD
 
     resources "/parkings", ParkingAPIController, only: [:index]
     resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
-=======
-    #post "/bookings", BookingAPIController, :create
->>>>>>> Add login with token
   end
 
   def guardian_current_user(conn, _) do

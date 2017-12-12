@@ -13,7 +13,7 @@ config :logger, level: :warn
 config :tartu_parking, TartuParking.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
-  password: "fubb1732",
+  password: "postgres",
   database: "tartu_parking_test",
   hostname: "localhost",
   port:    "5432",
