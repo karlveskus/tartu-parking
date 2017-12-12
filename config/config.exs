@@ -26,3 +26,11 @@ config :logger, :console,
 # of this file so it overrides the configuration defined above.
 import_config "#{Mix.env}.exs"
 
+config :canary, unauthorized_handler: {TartuParking.SessionController, :unauthorized}
+
+config :guardian, Guardian,
+  issuer: "TartuParking",
+  ttl: {30, :days},
+  allowed_drift: 2000,
+  secret_key: "Ha3WY/a7iDzjd2GfzUr57BJrnRjILZ91TGGI/31Dq++lNErNa4oe04XeSr8FobBw",
+  serializer: TartuParking.GuardianSerializer

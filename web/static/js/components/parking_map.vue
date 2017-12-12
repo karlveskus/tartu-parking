@@ -1,5 +1,6 @@
 <template>
     <div class="wrapper">
+        <p class="pull-right">Already tired? <a href="/" v-on:click="logout">Log out!</a></p>
         <div class="input-field">
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
@@ -11,6 +12,7 @@
 </template>
 
 <script>
+
 import axios from "axios";
 
 export default {
@@ -159,6 +161,9 @@ export default {
                 && infoWindow.getMap() !== null
                 && typeof infoWindow.getMap() !== "undefined");
         },
+        logout: function() {
+            auth.logout(this, { headers: auth.getAuthHeader() });
+        }
     },
     mounted: function () {
         this.map = new google.maps.Map(
