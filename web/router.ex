@@ -18,6 +18,17 @@ defmodule TartuParking.Router do
     plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionController    
     plug :guardian_current_user
   end
+
+  pipeline :api do
+    plug :accepts, ["json"]
+    plug Guardian.Plug.VerifyHeader
+    plug Guardian.Plug.LoadResource
+  end
+
+  pipeline :auth_api do
+    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController  
+    plug :guardian_current_user
+  end
   
   scope "/", TartuParking do
     pipe_through :browser # Use the default browser stack
@@ -35,17 +46,6 @@ defmodule TartuParking.Router do
     post "/bookings", BookingAPIController, :create
     post "/sessions", SessionAPIController, :create
     resources "/users", UserController
-  end
-
-  pipeline :api do
-    plug :accepts, ["json"]
-    plug Guardian.Plug.VerifyHeader
-    plug Guardian.Plug.LoadResource
-  end
-
-  pipeline :auth_api do
-    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController  
-    plug :guardian_current_user  
   end
 
   scope "/api", TartuParking do
