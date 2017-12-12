@@ -39,7 +39,7 @@ defmodule TartuParking.Router do
   end
 
   scope "/", TartuParking do
-    pipe_through [:browser, :browser_auth, :require_login]
+    pipe_through [:browser, :browser_auth]
 
     resources "/bookings", BookingController
   end

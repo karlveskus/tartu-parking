@@ -1,7 +1,7 @@
 import axios from "axios";
 
 export default {
-  user: { username: "" }, 
+  user: { username: "" },
   login: function (context, creds, redirect) {
     axios.post("/api/sessions", creds)
       .then(response => {
@@ -33,7 +33,7 @@ export default {
     },
     getAuthHeader: function() {
       return {
-        'Authorization': window.localStorage.getItem('token-'+this.username)
+        'Authorization': window.localStorage.getItem('token-user') // TODO: hard-coded to user
       }
     }
 }

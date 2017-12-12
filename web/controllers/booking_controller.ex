@@ -4,15 +4,13 @@ defmodule TartuParking.BookingController do
 
   def index(conn, params) do
 
-    user_id = 1
-
     parking =
       case Map.fetch(params, "parking_id") do
         :error            -> ""
         {:ok, parking_id} -> Repo.get(Parking, parking_id) |> Poison.encode!
       end
     
-    render conn, "index.html", user_id: user_id, parking_data: parking
+    render conn, "index.html", parking_data: parking
 
   end
   

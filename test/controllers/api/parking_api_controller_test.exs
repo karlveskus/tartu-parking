@@ -4,8 +4,10 @@ defmodule TartuParking.ParkingAPIControllerTest do
 
   test "GET /api/parkings 2 of 3 total parkings available: returns nearest parking places", %{conn: conn} do
     zones =
-      [ %{name: "Zone A", price_per_hour: 2.0, price_per_min: 0.12, free_time: 15},
-        %{name: "Zone B", price_per_hour: 1.0, price_per_min: 0.08, free_time: 90} ]
+      [
+        %{name: "Zone A", price_per_hour: 2.0, price_per_min: 0.12, free_time: 15},
+        %{name: "Zone B", price_per_hour: 1.0, price_per_min: 0.08, free_time: 90}
+      ]
       |> Enum.map(fn zone -> Zone.changeset(%Zone{}, zone) end)
       |> Enum.map(fn changeset -> Repo.insert!(changeset) end)
 
@@ -27,6 +29,7 @@ defmodule TartuParking.ParkingAPIControllerTest do
                |> get(parking_api_path(conn, :index), address: "Turu 2")
                |> Map.get(:resp_body)
                |> Poison.Parser.parse!
+
     assert length(response) == 3
     assert Map.get(List.first(response), "address") == "Turu 2"
     assert Map.get(List.last(response), "address") == "Riia 2"
