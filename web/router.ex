@@ -31,34 +31,35 @@ defmodule TartuParking.Router do
   end
   
   scope "/", TartuParking do
-    pipe_through :browser # Use the default browser stack
-    resources "/sessions", SessionController, only: [:new, :create, :delete]
-  end
+    pipe_through :browser
 
-  scope "/", TartuParking do
-    pipe_through [:browser, :browser_auth]
-    resources "/bookings", BookingController
+    resources "/sessions", SessionController, only: [:new, :create, :delete]
+
     get "/", PageController, :index
   end
 
-  scope "/api", TartuParking do
-    pipe_through :api
-    post "/bookings", BookingAPIController, :create
-    post "/sessions", SessionAPIController, :create
-    resources "/users", UserController
+  scope "/", TartuParking do
+    pipe_through [:browser, :browser_auth, :require_login]
+
+    resources "/bookings", BookingController
   end
 
   scope "/api", TartuParking do
     pipe_through :api
+
+    post "/bookings", BookingAPIController, :create
     post "/sessions", SessionAPIController, :create
+
+    resources "/parkings", ParkingAPIController, only: [:index]
   end
 
   scope "/api", TartuParking do
     pipe_through [:api, :auth_api]
+
     delete "/sessions/:id", SessionAPIController, :delete
 
-    resources "/parkings", ParkingAPIController, only: [:index]
     resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
+    resources "/users", UserController
   end
 
   def guardian_current_user(conn, _) do
