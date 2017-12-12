@@ -1,6 +1,6 @@
 <template>
     <div class="wrapper">
-        <a href="/sessions/new" style="align:center;">Log in</a>
+        <p class="pull-right">Already tired? <a href="/" v-on:click="logout">Log out!</a></p>
         <div class="input-field">
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
@@ -12,6 +12,7 @@
 </template>
 
 <script>
+
 import axios from "axios";
 
 export default {

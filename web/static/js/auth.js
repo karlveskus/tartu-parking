@@ -7,8 +7,6 @@ export default {
       .then(response => {
         this.username = creds.username;
         window.localStorage.setItem('token-'+this.username, response.data.token);
-console.log("I am here");
-console.log(context.$router);
         if (redirect)
           //context.$router.push({path: redirect});
           window.location.replace("/");
@@ -23,7 +21,8 @@ console.log(context.$router);
           window.localStorage.removeItem('token-'+this.username);
           this.user.authenticated = false;
           this.user.username = "";
-          context.$router.push({path: '/login'});
+          //context.$router.push({path: '/'});
+          window.location.replace("/sessions/new");
         }).catch(error => {
           console.log(error)
         });
