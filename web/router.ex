@@ -9,13 +9,13 @@ defmodule TartuParking.Router do
     plug :put_secure_browser_headers
   end
 
-  pipeline :browser_auth do  
+  pipeline :browser_auth do
     plug Guardian.Plug.VerifySession
     plug Guardian.Plug.LoadResource
   end
 
   pipeline :require_login do
-    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionController    
+    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionController
     plug :guardian_current_user
   end
 
@@ -26,10 +26,10 @@ defmodule TartuParking.Router do
   end
 
   pipeline :auth_api do
-    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController  
+    plug Guardian.Plug.EnsureAuthenticated, handler: TartuParking.SessionAPIController
     plug :guardian_current_user
   end
-  
+
   scope "/", TartuParking do
     pipe_through :browser
 
