@@ -47,7 +47,6 @@ defmodule TartuParking.Router do
   scope "/api", TartuParking do
     pipe_through :api
 
-    post "/bookings", BookingAPIController, :create
     post "/sessions", SessionAPIController, :create
 
     resources "/parkings", ParkingAPIController, only: [:index]
