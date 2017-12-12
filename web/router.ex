@@ -57,7 +57,7 @@ defmodule TartuParking.Router do
 
     delete "/sessions/:id", SessionAPIController, :delete
 
-    resources "/bookings", BookingAPIController, only: [:index, :create, :delete]
+    resources "/bookings", BookingAPIController, only: [:index, :create, :update]
     resources "/users", UserController
   end
 

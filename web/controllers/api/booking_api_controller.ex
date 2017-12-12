@@ -16,7 +16,8 @@ defmodule TartuParking.BookingAPIController do
 
              %{
                "id": booking.id,
-               "parking": parking
+               "parking": parking,
+               "status": booking.status
              }
            end
          )
@@ -26,24 +27,26 @@ defmodule TartuParking.BookingAPIController do
     |> json(bookings)
   end
 
-
-  def create(conn, params) do
+  def create(conn, %{"parking_id" => parking_id}) do
 
     user = conn.assigns.current_user
 
+    changeset =
+      Booking.changeset(
+        %Booking{},
+        %{
+          status: "started",
+          user_id: user.id,
+          parking_id: parking_id
+        }
+      )
+
     {status, response} =
-      case Map.fetch(params, "parking_id") do
-        :error ->
-          {400, %{"message": "Missing Parking ID"}}
-        {:ok, parking_id} ->
+      case Repo.insert(changeset) do
+        {:error, msg} ->
+          {500, %{"message": "Internal error"}}
 
-          changeset =
-            Booking.changeset(%Booking{})
-            |> Changeset.put_change(:user, Repo.get!(User, user.id))
-            |> Changeset.put_change(:parking, Repo.get!(Parking, parking_id))
-
-          booking = Repo.insert!(changeset)
-
+        {:ok, booking} ->
           {201, %{"message": "Booking created", "booking_id": booking.id}}
       end
 
@@ -52,29 +55,36 @@ defmodule TartuParking.BookingAPIController do
     |> json(response)
   end
 
+  def create(conn, _params) do
+    conn
+    |> put_status(200)
+    |> json(%{"message": "Missing Parking ID"})
+  end
 
-  def delete(conn, params) do
+
+  def update(conn, %{"id" => booking_id}) do
 
     user = conn.assigns.current_user
 
+    query = from b in Booking, where: b.id == ^booking_id and b.user_id == ^user.id
+    booking = query
+              |> Repo.all()
+              |> List.first()
+
     {status, response} =
-      case Map.fetch(params, "id") do
-        :error ->
-          {400, %{"message": "Missing Parking ID"}}
-        {:ok, booking_id} ->
+      case booking do
+        nil ->
+          {404, %{"message": "Booking not found"}}
 
-          booking_id = booking_id
-                       |> Integer.parse()
-                       |> elem(0)
+        _ ->
+          booking = Ecto.Changeset.change booking, status: "finished"
 
-          booking = Repo.get(Booking, booking_id)
+          case Repo.update booking do
+            {:ok, struct} ->
+              {200, %{"message": "Booking finished"}}
 
-          case booking do
-            nil ->
-              {404, %{"message": "Booking not found"}}
-            _ ->
-              Repo.delete!(booking)
-              {200, %{"message": "Booking removed"}}
+            {:error, changeset} ->
+              {500, %{"message": "Internal error"}}
           end
       end
 
