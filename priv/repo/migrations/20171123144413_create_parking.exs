@@ -7,7 +7,6 @@ defmodule TartuParking.Repo.Migrations.CreateParking do
     execute "CREATE EXTENSION IF NOT EXISTS postgis"
     create table(:parkings) do
       add :address, :string
-      add :available_slots, :integer
       add :total_slots, :integer
     
       timestamps()

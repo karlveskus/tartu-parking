@@ -48,7 +48,6 @@ defmodule TartuParking.ParkingAPIController do
       address: parking.address,
       slots: %{
         total: parking.total_slots, 
-        available: parking.available_slots
       },
       zone: %{
         id:   zone.id,

@@ -4,7 +4,6 @@ defmodule TartuParking.Parking do
 
     schema "parkings" do
       field :address, :string
-      field :available_slots, :integer
       field :total_slots, :integer
       field :coordinates, Geo.MultiPoint
       field :distance, :float, virtual: true
@@ -16,8 +15,8 @@ defmodule TartuParking.Parking do
   
     def changeset(struct, params \\ %{}) do
       struct
-      |> cast(params, [:address, :available_slots, :total_slots, :coordinates, :zone_id])
-      |> validate_required([:address, :available_slots, :total_slots, :coordinates, :zone_id])
+      |> cast(params, [:address, :total_slots, :coordinates, :zone_id])
+      |> validate_required([:address, :total_slots, :coordinates, :zone_id])
     end
     
     # Returns the parkings which are in the given radius near the given point
