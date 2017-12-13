@@ -2,7 +2,7 @@
     <div>
         <br>
         <br>
-        <div style="margin-left: 300px; margin-right: 300px;">
+        <div style="margin-left: 400px; margin-right: 400px;">
             <h2>Login</h2>
         <hr>
         <br>
@@ -15,6 +15,9 @@
                     <label for="password">Password:</label>
                     <input type="password" id="password" v-model="password">
                 </div>
+                <br>
+                <div align="center" style="font-size: 18px;">Not registred yet? <a href="/users/new" style="align:center;">Click here</a></div>
+                 <br>
                 <input type="submit" v-on:click="login" value="Submit" />
             </div>
         </div>
@@ -75,6 +78,16 @@ input[type=submit] {
 
 input[type=submit]:hover {
     background-color: #45a049;
+}
+
+h2 {
+    display: block;
+    font-size: 1.5em;
+    margin-top: 0.83em;
+    margin-bottom: 0.83em;
+    margin-left: 0;
+    margin-right: 0;
+    font-weight: bold;
 }
 
 </style>
