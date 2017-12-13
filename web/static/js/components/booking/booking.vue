@@ -6,12 +6,11 @@
         :booking_data="booking" :finish_parking="finish_parking"/>
     </div>
     <div v-if="parking_data_json">
-      <h2>Book a new parking</h2>
+      <h2>Book a new parking spot</h2>
       <new-booking :parking_data="parking_data_json" :start_parking="start_parking"/>
     </div>
     <button id="back-to-map" v-on:click="navigate_to_map">Back to map</button>
   </section>
-  
 </template>
 
 <script>
@@ -43,10 +42,13 @@ export default {
         }));
       })
     },
-    start_parking: function() {
+    start_parking: function(payment_method) {
       axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
 
-      axios.post('api/bookings/', {parking_id: this.parking_data_json.id})
+      axios.post('api/bookings/', {
+          parking_id: this.parking_data_json.id,
+          payment_method: payment_method
+      })
       .then(() => {
           this.parking_data_json = null;
           this.get_started_bookings(this.set_bookings);

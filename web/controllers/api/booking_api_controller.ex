@@ -1,7 +1,6 @@
 defmodule TartuParking.BookingAPIController do
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Booking, User, Parking, Zone}
-  alias Ecto.{Changeset}
+  alias TartuParking.{Repo, Booking, Parking, Zone}
   import Ecto.Query, only: [from: 2]
 
   def index(conn, _params) do
@@ -25,7 +24,9 @@ defmodule TartuParking.BookingAPIController do
                  "pin_lat": parking.pin_lat,
                  "zone": zone
                },
-               "status": booking.status
+               "status": booking.status,
+               "start_time": booking.inserted_at,
+               "payment_method": booking.payment_method
              }
            end
          )
@@ -35,7 +36,7 @@ defmodule TartuParking.BookingAPIController do
     |> json(bookings)
   end
 
-  def create(conn, %{"parking_id" => parking_id}) do
+  def create(conn, %{"parking_id" => parking_id, "payment_method" => payment_method}) do
 
     user = conn.assigns.current_user
 
@@ -45,13 +46,14 @@ defmodule TartuParking.BookingAPIController do
         %{
           status: "started",
           user_id: user.id,
-          parking_id: parking_id
+          parking_id: parking_id,
+          payment_method: payment_method
         }
       )
 
     {status, response} =
       case Repo.insert(changeset) do
-        {:error, msg} ->
+        {:error, _msg} ->
           {500, %{"message": "Internal error"}}
 
         {:ok, booking} ->
@@ -88,10 +90,10 @@ defmodule TartuParking.BookingAPIController do
           booking = Ecto.Changeset.change booking, status: "finished"
 
           case Repo.update booking do
-            {:ok, struct} ->
+            {:ok, _struct} ->
               {200, %{"message": "Booking finished"}}
 
-            {:error, changeset} ->
+            {:error, _changeset} ->
               {500, %{"message": "Internal error"}}
           end
       end

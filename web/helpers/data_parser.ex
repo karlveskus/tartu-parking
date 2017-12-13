@@ -27,6 +27,6 @@ defmodule TartuParking.DataParser do
     |> Map.get("geometry")
     |> Map.get("coordinates")
     |> List.first
-    |> Enum.map(fn ([x, y, z]) -> {x, y} end)
+    |> Enum.map(fn ([x, y, _]) -> {x, y} end)
   end
 end

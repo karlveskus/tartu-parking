@@ -4,6 +4,7 @@ defmodule TartuParking.Booking do
 
   schema "bookings" do
     field :status, :string
+    field :payment_method, :string
     belongs_to :user, TartuParking.User, foreign_key: :user_id
     belongs_to :parking, TartuParking.Parking, foreign_key: :parking_id
 
@@ -15,7 +16,7 @@ defmodule TartuParking.Booking do
   """
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:status, :user_id, :parking_id])
-    |> validate_required([:status, :user_id, :parking_id])
+    |> cast(params, [:status, :user_id, :parking_id, :payment_method])
+    |> validate_required([:status, :user_id, :parking_id, :payment_method])
   end
 end

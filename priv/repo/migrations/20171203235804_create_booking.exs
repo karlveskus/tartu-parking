@@ -6,6 +6,7 @@ defmodule TartuParking.Repo.Migrations.CreateBooking do
       add :user_id, references(:users)
       add :parking_id, references(:parkings)
       add :status, :string
+      add :payment_method, :string
 
       timestamps()
     end
