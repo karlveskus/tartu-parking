@@ -1,7 +1,7 @@
 defmodule TartuParking.ParkingAPIController do
   @http_client Application.get_env(:tartu_parking, :http_client)
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Parking, Zone, Booking}
+  alias TartuParking.{Repo, Parking, Zone, Booking, DataParser}
   Postgrex.Types.define(
     TartuParking.PostgresTypes,
     [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
@@ -19,18 +19,7 @@ defmodule TartuParking.ParkingAPIController do
           []
         {:ok, address} ->
 
-          url = URI.encode(
-            "https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBQek7NQLBPy99BvR8O9Z1SPzCs9OasrSo&address=#{
-              address
-            },+Tartu+city,+Estonia"
-          )
-
-          # Parse distances
-          %{"body": body} = @http_client.get!(url)
-          %{"results" => results} = Poison.Parser.parse!(body)
-          %{"geometry" => geometry} = List.first(results)
-          %{"location" => location} = geometry
-          %{"lng" => lng, "lat" => lat} = location
+          %{"lat" => lat, "lng" => lng} = DataParser.get_coordinates_by_address(address)
 
           point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
 
