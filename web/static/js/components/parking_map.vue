@@ -44,25 +44,36 @@ export default {
                 res.data.forEach((parking) => {
                     this.geocoder.geocode({'address': `${parking.address}, Tartu city, Estonia`}, (results, status) => {
                         if (status == google.maps.GeocoderStatus.OK) {
-
-                            const coords = parking.coordinates
+                            const coords = parking.coordinates;
+                            const pin_coords = parking.pin;
+                            let area;
                             
-                            const area = new google.maps.Polygon({
-                                paths: coords,
-                                strokeColor: '#586cf2',
-                                strokeOpacity: 0.55,
-                                strokeWeight: 3,
-                                fillColor: '#4f61d9',
-                                fillOpacity: 0.3,
-                            });
+                            if (parking.zone.name === "Zone A") {
+                                area = new google.maps.Polygon({
+                                    paths: coords,
+                                    strokeColor: '#FF3030',
+                                    strokeOpacity: 0.55,
+                                    strokeWeight: 3,
+                                    fillColor: '#FF3030',
+                                    fillOpacity: 0.3,
+                                });
+                            } else {
+                                area = new google.maps.Polygon({
+                                    paths: coords,
+                                    strokeColor: '#586cf2',
+                                    strokeOpacity: 0.55,
+                                    strokeWeight: 3,
+                                    fillColor: '#4f61d9',
+                                    fillOpacity: 0.3,
+                                });
+                            }
 
                             area.setMap(this.map);
                             this.parking_polygons.push(area);
                             
-                            const position = results[0].geometry.location
                             const marker = new google.maps.Marker({
                                 map: this.map,
-                                position: {"lat": parking.pin.lat, "lng": parking.pin.lng},
+                                position: {"lat": pin_coords.lat, "lng": pin_coords.lng},
                                 icon: '/images/marker_blueP.png'
                             });
 
