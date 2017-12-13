@@ -49,27 +49,20 @@ export default {
                             
                             const area = new google.maps.Polygon({
                                 paths: coords,
-                                strokeColor: '#000099',
-                                strokeOpacity: 0.8,
-                                strokeWeight: 2,
-                                fillColor: '#3232ad',
-                                fillOpacity: 0.45,
+                                strokeColor: '#586cf2',
+                                strokeOpacity: 0.55,
+                                strokeWeight: 3,
+                                fillColor: '#4f61d9',
+                                fillOpacity: 0.3,
                             });
 
                             area.setMap(this.map);
                             this.parking_polygons.push(area);
-
-
-                            const bounds = new google.maps.LatLngBounds();
-                            area.getPath().forEach(function (path, index) {
-                                bounds.extend(path);
-                            });
-
                             
                             const position = results[0].geometry.location
                             const marker = new google.maps.Marker({
                                 map: this.map,
-                                position: bounds.getCenter(),
+                                position: {"lat": parking.pin.lat, "lng": parking.pin.lng},
                                 icon: '/images/marker_blueP.png'
                             });
 

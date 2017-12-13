@@ -1,10 +1,12 @@
 defmodule TartuParking.Parking do
     use TartuParking.Web, :model
-    @derive {Poison.Encoder, only: [:id, :address, :available_slots, :total_slots]}
+    @derive {Poison.Encoder, only: [:id, :address, :total_slots, :pin_lat, :pin_lng]}
 
     schema "parkings" do
       field :address, :string
       field :total_slots, :integer
+      field :pin_lat, :float
+      field :pin_lng, :float
       field :coordinates, Geo.MultiPoint
       field :distance, :float, virtual: true
       has_many :bookings, TartuParking.Booking
@@ -15,8 +17,8 @@ defmodule TartuParking.Parking do
   
     def changeset(struct, params \\ %{}) do
       struct
-      |> cast(params, [:address, :total_slots, :coordinates, :zone_id])
-      |> validate_required([:address, :total_slots, :coordinates, :zone_id])
+      |> cast(params, [:address, :total_slots, :pin_lat, :pin_lng, :coordinates, :zone_id])
+      |> validate_required([:address, :total_slots, :pin_lat, :pin_lng, :coordinates, :zone_id])
     end
     
     # Returns the parkings which are in the given radius near the given point

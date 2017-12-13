@@ -20,7 +20,7 @@ defmodule TartuParking.DataParser do
     |> Enum.filter(
          fn (parking) ->
            Map.get(parking, "properties")
-           |> Map.get("Name") == address
+           |> Map.get("name") == address
          end
        )
     |> List.first()

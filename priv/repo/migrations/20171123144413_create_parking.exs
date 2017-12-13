@@ -8,7 +8,9 @@ defmodule TartuParking.Repo.Migrations.CreateParking do
     create table(:parkings) do
       add :address, :string
       add :total_slots, :integer
-    
+      add :pin_lng, :float
+      add :pin_lat, :float
+
       timestamps()
     end
     execute("SELECT AddGeometryColumn ('parkings','coordinates',4326,'MULTIPOINT',2);")

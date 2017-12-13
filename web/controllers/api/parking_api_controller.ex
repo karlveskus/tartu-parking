@@ -59,7 +59,11 @@ defmodule TartuParking.ParkingAPIController do
       id: parking.id,
       coordinates:
         parking.coordinates.coordinates
-        |> Enum.map(fn {lng, lat} -> %{lng: lng, lat: lat} end)
+        |> Enum.map(fn {lng, lat} -> %{lng: lng, lat: lat} end),
+      pin: %{
+        lng: parking.pin_lng,
+        lat: parking.pin_lat
+      }
     }
   end
 
