@@ -1,11 +1,13 @@
 defmodule TartuParking.ParkingAPIController do
   @http_client Application.get_env(:tartu_parking, :http_client)
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Parking, Zone}
-  Postgrex.Types.define(TartuParking.PostgresTypes,
+  alias TartuParking.{Repo, Parking, Zone, Booking, DataParser}
+  Postgrex.Types.define(
+    TartuParking.PostgresTypes,
     [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
-    json: Poison)
-  
+    json: Poison
+  )
+
   def index(conn, params) do
 
     # Maximum distance between inserted destination and parking places in meters
@@ -16,26 +18,25 @@ defmodule TartuParking.ParkingAPIController do
         :error ->
           []
         {:ok, address} ->
-          
-          url = URI.encode("https://maps.googleapis.com/maps/api/geocode/json?key=AIzaSyBQek7NQLBPy99BvR8O9Z1SPzCs9OasrSo&address=#{address},+Tartu+city,+Estonia")
 
-          # Parse distances
-          %{"body": body} = @http_client.get!(url)
-          %{"results" => results} = Poison.Parser.parse!(body)
-          %{"geometry" => geometry} = List.first(results)
-          %{"location" => location} = geometry
-          %{"lng" => lng, "lat" => lat} = location
+          %{"lat" => lat, "lng" => lng} = DataParser.get_coordinates_by_address(address)
 
           point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
-          
-          parkings_in_range = TartuParking.Parking.within(Parking, point, max_distance) 
-            |> TartuParking.Parking.order_by_nearest(point) 
-            |> TartuParking.Parking.select_with_distance(point) 
+
+          parkings_in_range =
+            TartuParking.Parking.within(Parking, point, max_distance)
+            |> TartuParking.Parking.order_by_nearest(point)
+            |> TartuParking.Parking.select_with_distance(point)
             |> Repo.all
-            |> Enum.map(fn (parking) -> format_parking(parking) end)
-            
+            |> Enum.map(
+                 fn (parking) ->
+                   format_parking(parking)
+                   |> Map.put(:distance, Float.round(parking.distance))
+                 end
+               )
+
           parkings_in_range
-        end
+      end
 
     conn
     |> put_status(200)
@@ -44,23 +45,44 @@ defmodule TartuParking.ParkingAPIController do
 
   def format_parking(parking) do
     zone = Repo.get!(Zone, parking.zone_id)
+    started_bookings =
+      (from b in Booking, where: b.parking_id == ^parking.id and b.status == "started")
+      |> Repo.all()
+
     %{
       address: parking.address,
       slots: %{
-        total: parking.total_slots, 
-        available: parking.available_slots
+        total: parking.total_slots,
+        available: parking.total_slots - length(started_bookings)
       },
-      zone: %{
-        id:   zone.id,
-        name: zone.name,
-        price_per_hour: zone.price_per_hour,
-        price_per_min:  zone.price_per_min,
-        free_time:      zone.free_time
-      },
-      distance: parking.distance |> Float.round(),
+      zone: zone,
       id: parking.id,
-      coordinates: parking.coordinates.coordinates |> Enum.map(fn {lng, lat} -> %{lng: lng, lat: lat} end)
+      coordinates:
+        parking.coordinates.coordinates
+        |> Enum.map(fn {lng, lat} -> %{lng: lng, lat: lat} end),
+      pin: %{
+        lng: parking.pin_lng,
+        lat: parking.pin_lat
+      }
     }
+  end
+
+  def show(conn, %{"id" => parking_id}) do
+    parking =
+      Repo.get(Parking, parking_id)
+      |> format_parking()
+
+    case parking do
+      nil ->
+        conn
+        |> put_status(400)
+        |> json(%{"message" => "Parking not found"})
+
+      _ ->
+        conn
+        |> put_status(200)
+        |> json(parking)
+    end
   end
 
 end

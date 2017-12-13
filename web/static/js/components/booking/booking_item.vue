@@ -2,7 +2,7 @@
   <section>
     <h3>{{booking_data.parking.address}}</h3>
     <div>
-      Available slots: {{ booking_data.parking.available_slots }} / {{ booking_data.parking.total_slots }}
+      Total slots: {{ booking_data.parking.total_slots }}
     </div>
     <button v-on:click="finish_parking(booking_data.id)" class="finish-parking">Finish parking</button>
   </section>

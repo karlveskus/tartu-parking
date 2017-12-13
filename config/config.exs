@@ -7,8 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :tartu_parking,
-  ecto_repos: [TartuParking.Repo],
-extensions: [{Geo.PostGIS.Extension, library: Geo}]
+  ecto_repos: [TartuParking.Repo], extensions: [{Geo.PostGIS.Extension, library: Geo}]
+
 # Configures the endpoint
 config :tartu_parking, TartuParking.Endpoint,
   url: [host: "localhost"],

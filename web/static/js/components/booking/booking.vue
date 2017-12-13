@@ -16,6 +16,7 @@
 
 <script>
 import axios from "axios";
+import auth from '../../auth';
 import booking_item from './booking_item.vue';
 import new_booking from './new_booking.vue';
 
@@ -23,63 +24,56 @@ export default {
   data: function() {
     return {
       bookings: [],
-      parking_data_json: null
     }
   },
   components: {
     'booking-item': booking_item,
-    'new-booking': new_booking
+    'new-booking': new_booking,
+    'parking_data_json': null,
   },
-  props: [
-    'parking_data',
-    'user_id'
-  ],
+  props: ['parking_data'],
   methods: {
     finish_parking: function(booking_id) {
+      axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
 
-      axios.defaults.headers.common['user_id'] = this.user_id;
-
-      axios.delete('api/bookings/' + booking_id)
+      axios.put('api/bookings/' + booking_id)
       .then(() => {
-        this.bookings = this.bookings.filter((booking) => {
-          return booking.id != booking_id
-        })
+        this.set_bookings(this.bookings.filter((booking) => {
+          return booking.id !== booking_id
+        }));
       })
     },
     start_parking: function() {
-
-      axios.defaults.headers.common['user_id'] = this.user_id;
+      axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
 
       axios.post('api/bookings/', {parking_id: this.parking_data_json.id})
       .then(() => {
-        const url = "/api/bookings";
-
-        axios.get(url)
-        .then((res) => {
-          this.bookings = res.data;
           this.parking_data_json = null;
-        });
-      })
+          this.get_started_bookings(this.set_bookings);
+      });
+    },
+    get_started_bookings: function(cb) {
+      axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
+      
+      axios.get("/api/bookings")
+          .then((res) => {
+              cb(res.data.filter((booking) => booking.status === "started"))
+          });
+    },
+    set_bookings: function(bookings) {
+      this.bookings = bookings;
     },
     navigate_to_map: function() {
       window.location.href = '/';
-    }
+    },
   },
   mounted: function() {
     if (this.parking_data) {
       this.parking_data_json = JSON.parse(this.parking_data);
     }
     
-    axios.defaults.headers.common['user_id'] = this.user_id;
-
-    const url = "/api/bookings";
-
-    axios.get(url)
-    .then((res) => {
-      console.log(res.data)
-      this.bookings = res.data
-    });
-  }
+    this.get_started_bookings(this.set_bookings)
+  },
 }
 </script>
 
