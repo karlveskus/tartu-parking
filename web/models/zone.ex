@@ -1,5 +1,6 @@
 defmodule TartuParking.Zone do
   use TartuParking.Web, :model
+  @derive {Poison.Encoder, only: [:id, :name, :price_per_hour, :price_per_min, :free_time]}
 
   schema "zones" do
     field :name, :string

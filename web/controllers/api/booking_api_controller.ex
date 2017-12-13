@@ -1,6 +1,6 @@
 defmodule TartuParking.BookingAPIController do
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Booking, User, Parking}
+  alias TartuParking.{Repo, Booking, User, Parking, Zone}
   alias Ecto.{Changeset}
   import Ecto.Query, only: [from: 2]
 
@@ -13,10 +13,18 @@ defmodule TartuParking.BookingAPIController do
       |> Enum.map(
            fn (booking) ->
              parking = Repo.get(Parking, booking.parking_id)
+             zone = Repo.get(Zone, parking.zone_id)
 
              %{
                "id": booking.id,
-               "parking": parking,
+               "parking": %{
+                 "id": parking.id,
+                 "address": parking.address,
+                 "total_slots": parking.total_slots,
+                 "pin_lng": parking.pin_lng,
+                 "pin_lat": parking.pin_lat,
+                 "zone": zone
+               },
                "status": booking.status
              }
            end

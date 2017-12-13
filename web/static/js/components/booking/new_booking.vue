@@ -1,8 +1,7 @@
 <template>
   <section>
     <h3>{{ parking_data.address }}</h3>
-    <p>Total slots: {{ parking_data.total_slots }}</p>
-    <p>Available slots: {{ parking_data.available_slots }}</p>
+    <p>Total slots: {{ parking_data.slots.total }}</p>
     <button id="book-parking" v-on:click="start_parking">Book a spot</button>
   </section>
 </template>

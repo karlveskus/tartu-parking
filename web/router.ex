@@ -49,7 +49,7 @@ defmodule TartuParking.Router do
 
     post "/sessions", SessionAPIController, :create
 
-    resources "/parkings", ParkingAPIController, only: [:index]
+    resources "/parkings", ParkingAPIController, only: [:index, :show]
   end
 
   scope "/api", TartuParking do
@@ -58,6 +58,7 @@ defmodule TartuParking.Router do
     delete "/sessions/:id", SessionAPIController, :delete
 
     resources "/bookings", BookingAPIController, only: [:index, :create, :update]
+    resources "/zones", ZoneAPIController, only: [:index, :show]
     resources "/users", UserController
   end
 

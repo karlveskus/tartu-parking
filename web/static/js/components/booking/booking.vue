@@ -24,60 +24,55 @@ export default {
   data: function() {
     return {
       bookings: [],
-      parking_data_json: null
     }
   },
   components: {
     'booking-item': booking_item,
-    'new-booking': new_booking
+    'new-booking': new_booking,
+    'parking_data_json': null,
   },
-  props: [
-    'parking_data'
-  ],
+  props: ['parking_data'],
   methods: {
     finish_parking: function(booking_id) {
-      
       axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
 
       axios.put('api/bookings/' + booking_id)
       .then(() => {
-        this.bookings = this.bookings.filter((booking) => {
-          return booking.id != booking_id
-        })
+        this.set_bookings(this.bookings.filter((booking) => {
+          return booking.id !== booking_id
+        }));
       })
     },
     start_parking: function() {
-
       axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
 
       axios.post('api/bookings/', {parking_id: this.parking_data_json.id})
       .then(() => {
-          this.get_started_bookings(this.set_bookings);
           this.parking_data_json = null;
+          this.get_started_bookings(this.set_bookings);
       });
-    },
-    navigate_to_map: function() {
-      window.location.href = '/';
     },
     get_started_bookings: function(cb) {
       axios.defaults.headers.common['Authorization'] = auth.getAuthHeader().Authorization;
-    
-      const url = "/api/bookings";
-    
-      axios.get(url)
+      
+      axios.get("/api/bookings")
           .then((res) => {
-              cb(res.data.filter((booking) => booking.status == "started"))
+              cb(res.data.filter((booking) => booking.status === "started"))
           });
     },
     set_bookings: function(bookings) {
       this.bookings = bookings;
-    }
+    },
+    navigate_to_map: function() {
+      window.location.href = '/';
+    },
   },
   mounted: function() {
     if (this.parking_data) {
       this.parking_data_json = JSON.parse(this.parking_data);
     }
-      this.get_started_bookings(this.set_bookings);
+    
+    this.get_started_bookings(this.set_bookings)
   },
 }
 </script>
