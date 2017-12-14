@@ -1,6 +1,11 @@
-<h2>New user</h2>
-
+<br>
+<br>
+<div style="margin-left: 400px; margin-right: 400px;">
+    <h2>Registration</h2>
+    <hr>
+</div>
+<br>
 <%= render "form.html", changeset: @changeset,
                         action: user_path(@conn, :create) %>
 
-<span><%= link "Back", to: user_path(@conn, :index) %></span>
+<div align="center"><%= link "Back", to: page_path(@conn, :index) %></div>
