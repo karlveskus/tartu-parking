@@ -84,6 +84,7 @@ section{
   margin: 0 auto;
   position: relative;
   width: 600px;
+  padding-bottom: 30px;
 
   @media (max-width: 600px) {
       & {

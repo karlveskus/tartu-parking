@@ -1,10 +1,12 @@
 <template>
   <section>
-    <h3>{{booking_data.parking.address}}</h3> - <span>Total slots: {{ booking_data.parking.total_slots }}</span>
+    <h3>{{ booking_data.parking.address }}</h3>
     <div>
-      <p>Selected payment method: {{ parse_payment_method() }}</p>
-      <p>From {{parse_date_time(booking_data.start_time)}} to {{get_current_date_time()}}</p>
-      <p>Current estimated total: {{calculate_estimated_total()}} EUR</p>
+      <p>{{ parse_date_time(booking_data.start_time) }} - {{ get_current_date_time() }}</p>
+    </div>
+    <div>
+      <p>{{ parse_payment_method() }} payment</p>
+      <p>Current total: {{calculate_estimated_total() }} EUR</p>
     </div>
     <button v-on:click="finish_parking(booking_data.id)" class="finish-parking">Finish parking</button>
   </section>
@@ -21,10 +23,14 @@ export default {
   ],
   methods: {
     parse_date_time: function(dateTime) {
-      const date = dateTime.slice(0, 10).split("-").reverse().join(".");
-      const time = (parseInt(dateTime.slice(11, 13)) + 2) + dateTime.slice(13, 19);
+      const date = dateTime.slice(5, 10).split("-").reverse().join(".");
+      let hours = parseInt(dateTime.slice(11, 13)) + 2;
       
-      return date + " " + time
+      hours = hours < 10 ? "0" + hours : hours;
+      
+      let time = hours + dateTime.slice(13, 16);
+      
+      return date + " " + time;
     },
     get_current_date_time: function() {
       const now = new Date();
@@ -42,14 +48,14 @@ export default {
       const start_time = new Date(this.booking_data.start_time).getTime();
       
       const diff_in_minutes = (current_time - start_time) / 1000 / 60;
-      const minutes_to_pay = diff_in_minutes > 15 ? diff_in_minutes - free_time : 0;
+      const minutes_to_pay = diff_in_minutes > free_time ? diff_in_minutes - free_time : 0;
       
       let esitmated_total;
         
       if (payment_method === "hourly") {
         esitmated_total = Math.ceil(minutes_to_pay / 60) * price_per_hour;
       } else {
-        esitmated_total = minutes_to_pay * price_per_minute;
+        esitmated_total = (minutes_to_pay * price_per_minute).toFixed(2);
       }
         
       return esitmated_total;
@@ -59,7 +65,6 @@ export default {
       else return "Real time"
     }
   },
-  
 }
 </script>
 
@@ -77,6 +82,10 @@ section {
     display: inline;
     font-size: 20px;
   }
+  
+  div {
+    margin-top: 5px;
+  }
 
   button.finish-parking {
     -webkit-tap-highlight-color: #ea4335;
@@ -87,7 +96,6 @@ section {
     color: white;
     font-size: inherit;
     height: 40px;
-    margin: 0;
     outline: none;
     position: absolute;
     right: 10px;
