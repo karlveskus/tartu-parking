@@ -1,7 +1,7 @@
 defmodule WhiteBreadContext do
   use WhiteBread.Context
   use Hound.Helpers
-  alias TartuParking.{Repo,Parking}
+  alias TartuParking.{Repo,Parking,DataParser}
   alias Ecto.{Changeset}
 
   feature_starting_state fn  ->
@@ -35,9 +35,14 @@ defmodule WhiteBreadContext do
         |> Enum.map(fn x -> Enum.map(x, fn z-> Float.parse(String.trim(z)) |> elem(0)end) end)
         |> Enum.map(fn x -> List.to_tuple(x)end)
       
+      pin_lat = DataParser.get_coordinates_by_address(parking.address) |> Map.get("lat")
+      pin_lng = DataParser.get_coordinates_by_address(parking.address) |> Map.get("lng")
+      parking = Map.put(parking, :pin_lat, pin_lat)
+      parking = Map.put(parking, :pin_lng, pin_lng)
       parking|> Map.drop([:coordinates])
       Map.put(parking, :coordinates, %Geo.MultiPoint{coordinates: coord, srid: 4326}) 
   end) 
+  
     table
     |> Enum.map(fn parking -> Parking.changeset(%Parking{}, parking) end)
     |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
@@ -73,7 +78,7 @@ defmodule WhiteBreadContext do
     # Seems like it's the only way to test if markers exist or not
     # is to check amount of canvases created by google-maps
     canvas = find_all_elements(:tag, "canvas")
-
+    
     assert length(canvas) >= 2
     {:ok, state}
   end
