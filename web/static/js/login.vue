@@ -18,7 +18,7 @@
                 <br>
                 <div align="center" style="font-size: 18px;">Not registred yet? <a href="/users/new" style="align:center;">Click here</a></div>
                  <br>
-                <input type="submit" v-on:click="login" value="Submit" />
+                <input id="log-in-button" type="submit" v-on:click="login" value="Submit" />
             </div>
         </div>
     </div>
