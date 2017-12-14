@@ -1,6 +1,6 @@
 defmodule TartuParking.BookingController do
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Parking, Zone, ParkingAPIController}
+  alias TartuParking.{Repo, Parking, ParkingAPIController}
 
   def index(conn, params) do
 
@@ -14,9 +14,6 @@ defmodule TartuParking.BookingController do
           |> ParkingAPIController.format_parking()
           |> Poison.encode!
       end
-
-      IO.inspect parking
-
 
     render conn, "index.html", parking_data: parking
 

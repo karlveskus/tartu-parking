@@ -2,12 +2,26 @@
   <section>
     <h3>{{ parking_data.address }}</h3>
     <p>Total slots: {{ parking_data.slots.total }}</p>
-    <button id="book-parking" v-on:click="start_parking">Book a spot</button>
+    <br />
+    <h4>{{ parking_data.zone.name }}</h4>
+    <p> Free time {{ parking_data.zone.free_time }} minutes</p>
+    <p> Price per hour {{ parking_data.zone.price_per_hour }} EUR</p>
+    <p> Price per minute {{ parking_data.zone.price_per_min }} EUR</p>
+    <select v-model="payment_method">
+      <option value="hourly">Hourly payment</option>
+      <option value="real-time">Real-time payment</option>
+    </select>
+    <button id="book-parking" v-on:click="start_parking(payment_method)">Book a spot</button>
   </section>
 </template>
 
 <script>
 export default {
+  data: function () {
+    return {
+      payment_method: 'hourly'
+    }
+  },
   props: [
     'parking_data',
     'start_parking'
@@ -26,6 +40,10 @@ section {
 
   h3 {
     font-size: 20px;
+  }
+  
+  h4 {
+    font-size: 17px;
   }
 
   #book-parking {

@@ -4,6 +4,7 @@ defmodule TartuParking.Mixfile do
   def project do
     [
       app: :tartu_parking,
+      applications: [:timex],
       version: "0.0.1",
       elixir: "~> 1.4",
       elixirc_paths: elixirc_paths(Mix.env),
@@ -11,7 +12,9 @@ defmodule TartuParking.Mixfile do
       start_permanent: Mix.env == :prod,
       aliases: aliases(),
       deps: deps(),
-      preferred_cli_env: ["white_bread.run": :test]
+      preferred_cli_env: [
+        "white_bread.run": :test
+      ]
     ]
   end
 
@@ -27,7 +30,7 @@ defmodule TartuParking.Mixfile do
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(_), do: ["lib", "web"]
 
   # Specifies your project dependencies.
   #
@@ -48,12 +51,13 @@ defmodule TartuParking.Mixfile do
       {:faker, "~> 0.9", only: :test},
       {:httpoison, "~> 0.13"},
       {:phoenix, "~> 1.3.0-rc"},
-      {:phoenix_ecto, "~> 3.2"},   
-      {:phoenix_html, "~> 2.10"},   
+      {:phoenix_ecto, "~> 3.2"},
+      {:phoenix_html, "~> 2.10"},
       {:phoenix_live_reload, "~> 1.0", only: :dev},
       {:phoenix_pubsub, "~> 1.0"},
       {:poison, "~> 3.1"},
       {:postgrex, ">= 0.0.0"},
+      {:timex, "~> 3.0"},
       {:white_bread, "~> 4.1", only: [:test]}
     ]
   end
