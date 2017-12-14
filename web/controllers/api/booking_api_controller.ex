@@ -90,13 +90,19 @@ defmodule TartuParking.BookingAPIController do
         _ ->
           booking = Ecto.Changeset.change booking, status: "finished"
 
+          parking = Repo.get(Parking, booking.data.parking_id)
+
           case Repo.update booking do
             {:ok, struct} ->
+              {price, start_time, end_time} = do_price_for_parking(booking)
               {
                 200,
                 %{
                   "message": "Booking finished",
-                  "price": do_price_for_parking(booking)
+                  "price": price,
+                  "start_time": start_time,
+                  "end_time": end_time,
+                  "address": parking.address
                 }
               }
 
@@ -143,7 +149,7 @@ defmodule TartuParking.BookingAPIController do
           minutes_to_pay * price_per_min
       end
 
-    price
+    {price, inserted_at, now}
   end
 
 end
