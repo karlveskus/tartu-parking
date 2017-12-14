@@ -1,14 +1,13 @@
 <template>
     <div class="wrapper">
         <div class="input-field">
-            <br>
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
             <span v-on:click="clear_address" class="clear-input">&times;</span>
             <button v-on:click="get_parkings" id="search-button">Search</button>
             <a style="float: right; margin-right: 10px;"href="/sessions/new"><button class="button" v-if="!getUser()" id="login-button">Log in</button></a>
             
-            <div v-if="getUser()" style="float: right; margin-right: 10px; border-radius: 25px; background: #4885ed; padding: 20px; width: 250px; height: 100px; text-align:center; color:white;">
+            <div v-if="getUser()" style="float: right; margin-right: 10px; background: #4885ed; padding: 20px; width: 250px; height: 100px; text-align:center; color:white;">
                 <p> Hello {{ getUser() }}</p><br>
                 <p> Already tired? <a href="/" v-on:click="logout">Log out!</a></p>        
             </div>
@@ -200,8 +199,6 @@ export default {
 div.wrapper {
     height: 100%;
     width: 100%;
-    top: 0px;
-    margin-top: -20px;
     .input-field {
         padding: 10px;
         position: absolute;
