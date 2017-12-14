@@ -1,5 +1,4 @@
 defmodule TartuParking.ParkingAPIController do
-  @http_client Application.get_env(:tartu_parking, :http_client)
   use TartuParking.Web, :controller
   alias TartuParking.{Repo, Parking, Zone, Booking, DataParser}
   Postgrex.Types.define(

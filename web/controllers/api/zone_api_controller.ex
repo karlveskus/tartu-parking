@@ -1,9 +1,8 @@
 defmodule TartuParking.ZoneAPIController do
-  @http_client Application.get_env(:tartu_parking, :http_client)
   use TartuParking.Web, :controller
-  alias TartuParking.{Repo, Parking, Zone, Booking, DataParser}
+  alias TartuParking.{Repo, Zone}
 
-  def index(conn, params) do
+  def index(conn, _params) do
 
     zones = Repo.all(Zone)
 
