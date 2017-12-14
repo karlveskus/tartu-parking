@@ -1,8 +1,3 @@
 <div id="parking-app">
-    <%# <%= if Guardian.Plug.claims(@conn) do %>
-           <%# <p class="pull-right"><a href="/" @click.prevent="logout">Log out!</a></p>
-    <% else %> 
-        <a href="/sessions/new" style="align:center;">Log in</a>
-    <%# <% end %>
     <parking-map></parking-map>
 </div>

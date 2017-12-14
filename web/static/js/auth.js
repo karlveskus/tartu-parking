@@ -6,9 +6,9 @@ export default {
     axios.post("/api/sessions", creds)
       .then(response => {
         this.username = creds.username;
-        window.localStorage.setItem('token-'+this.username, response.data.token);
+        window.localStorage.setItem('username', this.username)
+        window.localStorage.setItem('token', response.data.token);
         if (redirect)
-          //context.$router.push({path: redirect});
           window.location.replace("/");
       })
       .catch(error => {
@@ -18,22 +18,23 @@ export default {
     logout: function(context, options) {
       axios.delete("/api/sessions/1", options)
         .then(response => {
-          window.localStorage.removeItem('token-'+this.username);
+          window.localStorage.removeItem('token');
+          window.localStorage.removeItem('username');
           this.user.authenticated = false;
           this.user.username = "";
-          //context.$router.push({path: '/'});
-          window.location.replace("/sessions/new");
+          
+          window.location.replace("/");
         }).catch(error => {
           console.log(error)
         });
     },
     authenticated: function() {
-      const jwt = window.localStorage.getItem('token-'+this.username);
+      const jwt = window.localStorage.getItem('token');
       return !!jwt;
     },
     getAuthHeader: function() {
       return {
-        'Authorization': window.localStorage.getItem('token-user') // TODO: hard-coded to user
+        'Authorization': window.localStorage.getItem('token') // TODO: hard-coded to user
       }
     }
 }

@@ -1,11 +1,17 @@
 <template>
     <div class="wrapper">
-        <p class="pull-right">Already tired? <a href="/" v-on:click="logout">Log out!</a></p>
         <div class="input-field">
+            <br>
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
             <span v-on:click="clear_address" class="clear-input">&times;</span>
             <button v-on:click="get_parkings" id="search-button">Search</button>
+            <a style="float: right; margin-right: 10px;"href="/sessions/new"><button class="button" v-if="!getUser()" id="login-button">Log in</button></a>
+            
+            <div v-if="getUser()" style="float: right; margin-right: 10px; border-radius: 25px; background: #4885ed; padding: 20px; width: 250px; height: 100px; text-align:center; color:white;">
+                <p> Hello {{ getUser() }}</p><br>
+                <p> Already tired? <a href="/" v-on:click="logout">Log out!</a></p>        
+            </div>
         </div>
         <div class="google-map" :id="mapName"></div>
     </div>
@@ -14,7 +20,7 @@
 <script>
 
 import axios from "axios";
-
+import auth from "../auth";
 export default {
     data: function () {
         return {
@@ -167,7 +173,8 @@ export default {
         },
         logout: function() {
             auth.logout(this, { headers: auth.getAuthHeader() });
-        }
+        },
+        getUser: () => window.localStorage.getItem('username')
     },
     mounted: function () {
         this.map = new google.maps.Map(
@@ -192,7 +199,9 @@ export default {
 <style scoped lang="scss">
 div.wrapper {
     height: 100%;
-
+    width: 100%;
+    top: 0px;
+    margin-top: -20px;
     .input-field {
         padding: 10px;
         position: absolute;
