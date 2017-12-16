@@ -14,7 +14,8 @@ defmodule TartuParking.Mixfile do
       deps: deps(),
       preferred_cli_env: [
         "white_bread.run": :test
-      ]
+      ],
+      test_coverage: [tool: Coverex.Task]
     ]
   end
 
@@ -37,6 +38,7 @@ defmodule TartuParking.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
+      {:coverex, "~> 1.4.10", only: :test, runtime: false},
       {:cowboy, "~> 1.0"},
       {:geo, "~> 2.0"},
       {:geo_postgis, "~> 1.0"},
