@@ -1,7 +1,8 @@
 import axios from "axios";
 
 export default {
-  user: { username: "" },
+  user: { username: ""},
+  error: " ",
   login: function (context, creds, redirect) {
     axios.post("/api/sessions", creds)
       .then(response => {
@@ -12,7 +13,7 @@ export default {
           window.location.replace("/");
       })
       .catch(error => {
-        console.log(error);
+        this.error= "Username or password is invald";
       });
     },
     logout: function(context, options) {

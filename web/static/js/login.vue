@@ -7,6 +7,7 @@
         <hr>
         <br>
             <div>
+                <div align="center"><font color="red">{{ errorMsg }}</font></div>
                 <div class="form-group">
                     <label for="username">Username:</label>
                     <input type="text" id="username" v-model="username">
@@ -32,13 +33,15 @@ export default {
     data: function () {
         return {
             username: "",
-            password: ""
+            password: "",
+            errorMsg: ""
         }
     },
     methods: {
         login: function() {
             console.log(`Username ${this.username}, password ${this.password}`);
             auth.login(this, {username: this.username, password: this.password}, "/");
+            this.errorMsg = auth.error;
         }
     }
 }
