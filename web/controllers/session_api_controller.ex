@@ -9,7 +9,7 @@ defmodule TartuParking.SessionAPIController do
           {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :token)
           conn
           |> put_status(200)
-          |> json(%{token: jwt})
+          |> json(%{token: jwt, message: "Right credentials"})
       {:error, conn} ->
           conn
           |> put_status(400)
