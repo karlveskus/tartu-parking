@@ -66,6 +66,7 @@ export default {
       
       axios.get("/api/bookings")
           .then((res) => {
+        console.log(res)
               cb(res.data.filter((booking) => booking.status === "started"))
           });
     },

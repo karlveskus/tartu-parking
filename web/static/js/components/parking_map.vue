@@ -102,11 +102,12 @@ export default {
             .catch((e) => {
                 console.log(e)
             })
-
+          
             this.geocoder.geocode({'address': `${this.destionation_address}, Tartu city, Estonia`}, (results, status) => {
                 if (status == google.maps.GeocoderStatus.OK) {
                     const position = results[0].geometry.location
                     this.map.setCenter(position);
+                    //this.detectmob() ? this.map.setZoom(16) : this.map.setZoom(17);
                     this.map.setZoom(16);
                     this.destionation_marker = new google.maps.Marker({
                         map: this.map,
@@ -118,7 +119,15 @@ export default {
             });
 
         },
-        clear_address: function() {
+      detectmob: function () {
+        if (window.innerWidth <= 800 && window.innerHeight <= 600) {
+          return true;
+        } else {
+          return false;
+        }
+      },
+
+clear_address: function() {
             this.destionation_address = "";
         },
         remove_all_markers: function() {
