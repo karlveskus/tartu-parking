@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elixir.TartuParking.ParkingAPIController</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/source.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+      <h1>Elixir.TartuParking.ParkingAPIController Coverage Source Code</h1>
+
+      <table class="source">
+        <thead>
+          <tr>
+            <th>Line Number</th><th>Covered Lines</th><th>Source Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="source"><td class="num"> 1</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.ParkingAPIController"></a>
+    
+    <pre class="covered">defmodule TartuParking.ParkingAPIController do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 2</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+    <pre class="covered">  use TartuParking.Web, :controller
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 3</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  alias TartuParking.{Repo, Parking, Zone, Booking, DataParser}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 4</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  Postgrex.Types.define(
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 5</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    TartuParking.PostgresTypes,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 6</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    [Geo.PostGIS.Extension] ++ Ecto.Adapters.Postgres.extensions(),
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 7</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    json: Poison
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 8</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  )
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 9</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 10</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.ParkingAPIController.index.2"></a>
+    
+    <pre class="irrelevant">  def index(conn, params) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 11</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 12</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    # Maximum distance between inserted destination and parking places in meters
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 13</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+    <pre class="covered">    max_distance = 500
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 14</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 15</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+    <pre class="covered">    parkings =
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 16</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">      case Map.fetch(params, "address") do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 17</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        :error -&gt;
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 18</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">          []
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 19</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        {:ok, address} -&gt;
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 20</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 21</td>
+  <td class="num">2</td>
+  <td class="elixir">
+    
+    <pre class="covered">          %{"lat" =&gt; lat, "lng" =&gt; lng} = DataParser.get_coordinates_by_address(address)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 22</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 23</td>
+  <td class="num">2</td>
+  <td class="elixir">
+    
+    <pre class="covered">          point = %Geo.Point{coordinates: {lng, lat}, srid: 4326}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 24</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 25</td>
+  <td class="num">2</td>
+  <td class="elixir">
+    
+    <pre class="covered">          parkings_in_range =
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 26</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">            TartuParking.Parking.within(Parking, point, max_distance)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 27</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">            |&gt; TartuParking.Parking.order_by_nearest(point)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 28</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">            |&gt; TartuParking.Parking.select_with_distance(point)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 29</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">            |&gt; Repo.all
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 30</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">            |&gt; Enum.map(
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 31</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">                 fn (parking) -&gt;
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 32</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">                   format_parking(parking)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 33</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">                   |&gt; Map.put(:distance, Float.round(parking.distance))
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 34</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">                 end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 35</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">               )
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 36</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 37</td>
+  <td class="num">2</td>
+  <td class="elixir">
+    
+    <pre class="covered">          parkings_in_range
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 38</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 39</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 40</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    conn
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 41</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    |&gt; put_status(200)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 42</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+    <pre class="covered">    |&gt; json(parkings)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 43</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 44</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 45</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.ParkingAPIController.format_parking.1"></a>
+    
+    <pre class="irrelevant">  def format_parking(parking) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 46</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">    zone = Repo.get!(Zone, parking.zone_id)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 47</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">    started_bookings =
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 48</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">      (from b in Booking, where: b.parking_id == ^parking.id and b.status == "started")
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 49</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      |&gt; Repo.all()
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 50</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 51</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">    %{
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 52</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">      address: parking.address,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 53</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      slots: %{
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 54</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">        total: parking.total_slots,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 55</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">        available: parking.total_slots - length(started_bookings)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 56</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      },
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 57</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      zone: zone,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 58</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">      id: parking.id,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 59</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      coordinates:
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 60</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">        parking.coordinates.coordinates
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 61</td>
+  <td class="num">11</td>
+  <td class="elixir">
+    
+    <pre class="covered">        |&gt; Enum.map(fn {lng, lat} -&gt; %{lng: lng, lat: lat} end),
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 62</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      pin: %{
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 63</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">        lng: parking.pin_lng,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 64</td>
+  <td class="num">1</td>
+  <td class="elixir">
+    
+    <pre class="covered">        lat: parking.pin_lat
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 65</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      }
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 66</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    }
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 67</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 68</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 69</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.ParkingAPIController.show.2"></a>
+    
+    <pre class="irrelevant">  def show(conn, %{"id" =&gt; parking_id}) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 70</td>
+  <td class="num">0</td>
+  <td class="elixir">
+    
+    <pre class="not_covered">    parking =
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 71</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      Repo.get(Parking, parking_id)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 72</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      |&gt; format_parking()
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 73</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 74</td>
+  <td class="num">0</td>
+  <td class="elixir">
+    
+    <pre class="not_covered">    case parking do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 75</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      nil -&gt;
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 76</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        conn
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 77</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        |&gt; put_status(400)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 78</td>
+  <td class="num">0</td>
+  <td class="elixir">
+    
+    <pre class="not_covered">        |&gt; json(%{"message" =&gt; "Parking not found"})
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 79</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 80</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      _ -&gt;
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 81</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        conn
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 82</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        |&gt; put_status(200)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 83</td>
+  <td class="num">0</td>
+  <td class="elixir">
+    
+    <pre class="not_covered">        |&gt; json(parking)
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 84</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 85</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 86</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 87</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">end</pre>
+  </td>
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

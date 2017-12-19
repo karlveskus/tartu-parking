@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elixir.TartuParking.GuardianSerializer</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/source.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+      <h1>Elixir.TartuParking.GuardianSerializer Coverage Source Code</h1>
+
+      <table class="source">
+        <thead>
+          <tr>
+            <th>Line Number</th><th>Covered Lines</th><th>Source Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="source"><td class="num"> 1</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.GuardianSerializer"></a>
+    
+    <pre class="irrelevant">defmodule TartuParking.GuardianSerializer do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 2</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  @behaviour Guardian.Serializer
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 3</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 4</td>
+  <td class="num">3</td>
+  <td class="elixir">
+    
+    <pre class="covered">  def for_token(%TartuParking.User{} = user), do: {:ok, "User:#{user.id}"}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 5</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.GuardianSerializer.for_token.1"></a>
+    
+    <pre class="irrelevant">  def for_token(_), do: {:error, "Unknown Resource"}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 6</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 7</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  def from_token("User:"&lt;&gt;user_id), do: {:ok, TartuParking.Repo.get(TartuParking.User, user_id)}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 8</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+      <a name="#Elixir.TartuParking.GuardianSerializer.from_token.1"></a>
+    
+    <pre class="irrelevant">  def from_token(_), do: {:error, "Unknown Resource"}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 9</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 10</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">end</pre>
+  </td>
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

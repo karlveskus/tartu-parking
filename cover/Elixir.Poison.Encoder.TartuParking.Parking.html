@@ -1,0 +1,425 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Elixir.Poison.Encoder.TartuParking.Parking</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/source.css" type="text/css" media="screen" charset="utf-8" />
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+  </head>
+
+  <body>
+    <div id="content">
+      <h1>Elixir.Poison.Encoder.TartuParking.Parking Coverage Source Code</h1>
+
+      <table class="source">
+        <thead>
+          <tr>
+            <th>Line Number</th><th>Covered Lines</th><th>Source Code</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="source"><td class="num"> 1</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">defmodule TartuParking.Parking do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 2</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    use TartuParking.Web, :model
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 3</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    @derive {Poison.Encoder, only: [:id, :address, :total_slots, :pin_lat, :pin_lng, :zone_id]}
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 4</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 5</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    schema "parkings" do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 6</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :address, :string
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 7</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :total_slots, :integer
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 8</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :pin_lat, :float
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 9</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :pin_lng, :float
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 10</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :coordinates, Geo.MultiPoint
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 11</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      field :distance, :float, virtual: true
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 12</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      has_many :bookings, TartuParking.Booking
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 13</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      belongs_to :zone, TartuParking.Zone, foreign_key: :zone_id
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 14</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 15</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      timestamps()
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 16</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 17</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 18</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    def changeset(struct, params \\ %{}) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 19</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      struct
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 20</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      |&gt; cast(params, [:address, :total_slots, :pin_lat, :pin_lng, :coordinates, :zone_id])
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 21</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      |&gt; validate_required([:address, :total_slots, :pin_lat, :pin_lng, :coordinates, :zone_id])
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 22</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 23</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 24</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    # Returns the parkings which are in the given radius near the given point
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 25</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    def within(query, point, radius_in_m) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 26</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      {lng, lat} = point.coordinates
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 27</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      from(parking in query, where: fragment("ST_DWithin(?::geography, ST_SetSRID(ST_MakePoint(?, ?), ?), ?)", parking.coordinates, ^lng, ^lat, ^point.srid, ^radius_in_m))
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 28</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 29</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 30</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    # Orders all the polygons of the db by nearest from the given point
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 31</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    def order_by_nearest(query, point) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 32</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      {lng,lat} = point.coordinates
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 33</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      from(parking in query, order_by: fragment("? &lt;-&gt; ST_SetSRID(ST_MakePoint(?,?), ?)", parking.coordinates, ^lng,^lat , ^point.srid))
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 34</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 35</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 36</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    # Return all the parkings with the distances between the polygons points and the given point
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 37</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    def select_with_distance(query, point) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 38</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      {lng,lat} = point.coordinates
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 39</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      from(parking in query,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 40</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        select: %{parking | distance: fragment("ST_Distance_Sphere(?, ST_SetSRID(ST_MakePoint(?,?), ?))", parking.coordinates, ^lng, ^lat, ^point.srid)})
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 41</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 42</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 43</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    # Get closest point between a given point or polygon and the polygons from the db
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 44</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    def get_closest_point(query, point) do
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 45</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">      from(parking in query,
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 46</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">        select: %{parking | closest_point: fragment("ST_ClosestPoint(?, ?)", parking.coordinates, ^point)})
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 47</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">    end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 48</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 49</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  end
+</pre>
+  </td>
+</tr>
+<tr class="source"><td class="num"> 50</td>
+  <td class="num"></td>
+  <td class="elixir">
+    
+    <pre class="irrelevant">  </pre>
+  </td>
+</tr>
+
+        </tbody>
+      </table>
+    </div>
+  </body>
+</html>

@@ -250,7 +250,7 @@ div.wrapper {
             height: 32px;
             font-size: 26px;
             left: 270px;
-            margin-top: 4px;
+            margin-top: 6px;
             position: absolute;
             padding: 0 4px;
 
