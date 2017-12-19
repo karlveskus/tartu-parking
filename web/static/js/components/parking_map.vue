@@ -1,6 +1,5 @@
 <template>
     <div class="wrapper">
-        <p class="pull-right">Already tired? <a href="/" v-on:click="logout">Log out!</a></p>
         <div class="input-field">
             <input v-model="destionation_address" v-on:keyup.enter="get_parkings"
                 id="address-field" type="text" placeholder="Enter parking address here"/>
@@ -108,7 +107,7 @@ export default {
                 if (status == google.maps.GeocoderStatus.OK) {
                     const position = results[0].geometry.location
                     this.map.setCenter(position);
-                    this.map.setZoom(17);
+                    this.map.setZoom(16);
                     this.destionation_marker = new google.maps.Marker({
                         map: this.map,
                         position,
@@ -134,8 +133,11 @@ export default {
         generate_info_window: function(parking_info) {
             const infoWindowContent = `
                 <div style="font-weight: 400; font-size: 14px; margin-bottom: 5px">${parking_info.address}</div>
+                <div>${parking_info.zone.name}</div>
                 <div>Available slots: ${parking_info.slots.available} / ${parking_info.slots.total}</div>
-                <div>Distance: ${parking_info.distance}</div>
+                <div>Free time: ${parking_info.zone.free_time} minutes</div>
+                <div>Price per hour: ${parking_info.zone.price_per_hour} EUR</div>
+                <div>Price per minute: ${parking_info.zone.price_per_min} EUR</div>
             `;
 
             return new google.maps.InfoWindow({ content: infoWindowContent });
@@ -237,7 +239,7 @@ div.wrapper {
             color: #929292;
             cursor: pointer;
             height: 32px;
-            font-size: 28px;
+            font-size: 26px;
             left: 270px;
             margin-top: 4px;
             position: absolute;

@@ -10,7 +10,7 @@ defmodule TartuParking.ParkingAPIController do
   def index(conn, params) do
 
     # Maximum distance between inserted destination and parking places in meters
-    max_distance = 500
+    max_distance = 5000
 
     parkings =
       case Map.fetch(params, "address") do

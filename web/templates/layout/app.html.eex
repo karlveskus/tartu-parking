@@ -9,11 +9,6 @@
   </head>
 
   <body>
-    <header class="header">
-      <ol class="breadcrumb pull-right">
-      <br />
-      </ol>
-    </header>
 
     <main role="main">
       <%= render @view_module, @view_template, assigns %>
