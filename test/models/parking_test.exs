@@ -17,7 +17,9 @@ defmodule TartuParking.ParkingTest do
         {26.7309567, 58.3771372}
       ],
       srid: 4326
-    }
+    },
+    pin_lng: 0,
+    pin_lat: 0
   }
   @invalid_attrs %{}
 

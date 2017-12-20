@@ -22,13 +22,13 @@ defmodule TartuParking.SessionAPIControllerTest do
     test "Wrong password", %{conn: conn} do
         
         [
-            %{name: "User", username: "user", password: "user"},
-            %{name: "Admin", username: "admin", password: "admin"}
+            %{name: "User", username: "user12", password: "user"},
+            %{name: "Admin", username: "admin12", password: "admin"}
         ]
         |> Enum.map(fn user -> User.changeset(%User{}, user) end)
         |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
         response = build_conn
-                    |> post(session_api_path(conn, :create), %{username: "admin", password: "wrong_pass"})
+                    |> post(session_api_path(conn, :create), %{username: "admin12", password: "wrong_pass"})
                     |> Map.get(:resp_body)
                     |> Poison.Parser.parse!
         IO.inspect response
@@ -39,13 +39,13 @@ defmodule TartuParking.SessionAPIControllerTest do
     test "Wrong password and username", %{conn: conn} do
         
         [
-            %{name: "User", username: "user", password: "user"},
-            %{name: "Admin", username: "admin", password: "admin"}
+            %{name: "User", username: "user12", password: "user"},
+            %{name: "Admin", username: "admin12", password: "admin"}
         ]
         |> Enum.map(fn user -> User.changeset(%User{}, user) end)
         |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
         response = build_conn
-                    |> post(session_api_path(conn, :create), %{username: "wrong_user", password: "wron_pass"})
+                    |> post(session_api_path(conn, :create), %{username: "wrong_user", password: "wrong_pass"})
                     |> Map.get(:resp_body)
                     |> Poison.Parser.parse!
       
@@ -56,13 +56,13 @@ defmodule TartuParking.SessionAPIControllerTest do
     test "Right Username and Password", %{conn: conn} do
         
         [
-            %{name: "User", username: "user", password: "user"},
-            %{name: "Admin", username: "admin", password: "admin"}
+            %{name: "User", username: "user12", password: "user"},
+            %{name: "Admin", username: "admin12", password: "admin"}
         ]
         |> Enum.map(fn user -> User.changeset(%User{}, user) end)
         |> Enum.each(fn changeset -> Repo.insert!(changeset) end)
         response = build_conn
-                    |> post(session_api_path(conn, :create), %{username: "admin", password: "admin"})
+                    |> post(session_api_path(conn, :create), %{username: "admin12", password: "admin"})
                     |> Map.get(:resp_body)
                     |> Poison.Parser.parse!
         

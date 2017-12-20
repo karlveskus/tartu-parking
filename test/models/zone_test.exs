@@ -3,7 +3,7 @@ defmodule TartuParking.ZoneTest do
 
   alias TartuParking.Zone
 
-  @valid_attrs %{id: "some id", name: "some name"}
+  @valid_attrs %{name: "some name"}
   @invalid_attrs %{}
 
   test "changeset with valid attributes" do

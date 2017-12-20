@@ -18,6 +18,6 @@ defmodule TartuParking.Zone do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:name, :price_per_hour, :price_per_min, :free_time])
-    #|> validate_required([:id, :name])
+    |> validate_required([:name])
   end
 end
