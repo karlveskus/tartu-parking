@@ -15,7 +15,7 @@ defmodule TartuParking.Mixfile do
       preferred_cli_env: [
         "white_bread.run": :test
       ],
-      test_coverage: [tool: Coverex.Task]
+      test_coverage: [tool: Coverex.Task, ignore_modules: [TartuParking.ChannelCase, TartuParking.ConnCase, TartuParking.Router.Helpers, TartuParking.Gettext, TartuParking.PostgresTypes]]
     ]
   end
 
