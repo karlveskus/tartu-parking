@@ -2,7 +2,6 @@ defmodule TartuParking.BookingAPIController do
   use TartuParking.Web, :controller
   alias TartuParking.{Repo, Booking, Parking, Zone}
   import Ecto.Query, only: [from: 2]
-  import Ecto.DateTime
 
   def index(conn, _params) do
 
@@ -95,7 +94,7 @@ defmodule TartuParking.BookingAPIController do
           parking = Repo.get(Parking, booking.data.parking_id)
 
           case Repo.update booking do
-            {:ok, struct} ->
+            {:ok, _struct} ->
               {price, start_time, end_time} = do_price_for_parking(booking)
               {
                 200,
