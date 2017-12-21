@@ -3,8 +3,7 @@ defmodule TartuParking.ParkingAPIControllerTest do
   alias TartuParking.{Repo, Parking, Zone, DataParser}
 
   describe "index/2 responds with all Parkings" do
-    setup [:add_zone]
-    setup [:add_parkings]
+    setup [:add_zone, :add_parkings]
 
     test "Responds with all parking places ordered by its distance from given address", %{conn: conn} do
 
@@ -35,9 +34,8 @@ defmodule TartuParking.ParkingAPIControllerTest do
 
   end
 
-  describe "show/2" do
-    setup [:add_zone]
-    setup [:add_parkings]
+  describe "show/2 responds with 1 parking" do
+    setup [:add_zone, :add_parkings]
 
     test "Responds with Parking if Parking with given ID was found", %{conn: conn, parkings: parkings} do
 
@@ -68,6 +66,7 @@ defmodule TartuParking.ParkingAPIControllerTest do
       }
 
       assert response == expexted
+
     end
 
   end
