@@ -67,9 +67,8 @@ defmodule TartuParking.ParkingAPIController do
   end
 
   def show(conn, %{"id" => parking_id}) do
-    parking =
-      Repo.get(Parking, parking_id)
-      |> format_parking()
+
+    parking = Repo.get(Parking, parking_id)
 
     case parking do
       nil ->
@@ -80,7 +79,7 @@ defmodule TartuParking.ParkingAPIController do
       _ ->
         conn
         |> put_status(200)
-        |> json(parking)
+        |> json(format_parking(parking))
     end
   end
 

@@ -12,9 +12,9 @@ defmodule TartuParking.UserController do
     changeset = User.changeset(%User{}, user_params)
     case Repo.insert(changeset) do
       {:ok, user} ->
-        {:ok, jwt, _full_claims} = Guardian.encode_and_sign(user, :token)
-        conn
-        |> redirect(to: page_path(conn, :index))
+        {:ok, _jwt, _full_claims} = Guardian.encode_and_sign(user, :token)
+        redirect(conn, to: page_path(conn, :index))
+
       {:error, changeset} ->
         render(conn, "new.html", changeset: changeset)
     end
