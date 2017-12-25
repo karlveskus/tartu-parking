@@ -22,7 +22,8 @@ defmodule TartuParking.Mixfile do
           TartuParking.ConnCase,
           TartuParking.Router.Helpers,
           TartuParking.Gettext,
-          TartuParking.PostgresTypes
+          TartuParking.PostgresTypes,
+          TartuParking.Router
         ]
       ]
     ]

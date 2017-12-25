@@ -38,8 +38,6 @@ defmodule TartuParking.BookingAPIController do
 
   def create(conn, %{"parking_id" => parking_id, "payment_method" => payment_method}) do
 
-    IO.inspect conn
-
     user = conn.assigns.current_user
 
     changeset =

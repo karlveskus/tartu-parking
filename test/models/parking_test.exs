@@ -5,7 +5,6 @@ defmodule TartuParking.ParkingTest do
 
   @valid_attrs %{
     address: "Turu 6",
-    available_slots: "20",
     total_slots: "20",
     zone_id: 1,
     coordinates: %Geo.MultiPoint{
